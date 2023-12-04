@@ -1,0 +1,9 @@
+﻿<Application x:Class="SoundBuddy.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:SoundBuddy"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <FontFamily x:Key="FontAwesome">/SoundBuddy;component/Fonts/FontAwesome.otf#Font Awesome 6 Free Solid</FontFamily>
+    </Application.Resources>
+</Application>
