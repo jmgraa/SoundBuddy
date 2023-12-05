@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SoundBuddy.Models
 {
@@ -19,7 +14,9 @@ namespace SoundBuddy.Models
         private TagLib.IPicture? _cover;
         private string _path;
 
-        public Song(int id, string title, string artist, string album, string? genre, uint? year, TagLib.IPicture? cover, string path)
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public Song(int id, string? title, string? artist, string? album, string? genre, uint? year, TagLib.IPicture? cover, string path)
         {
             _id = id;
             _title = title;
@@ -29,6 +26,11 @@ namespace SoundBuddy.Models
             _year = year;
             _cover = cover;
             _path = path;
+        }
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public string Title
@@ -101,11 +103,6 @@ namespace SoundBuddy.Models
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        
     }
 }

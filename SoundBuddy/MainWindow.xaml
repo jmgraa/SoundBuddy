@@ -10,17 +10,44 @@
         <WindowChrome GlassFrameThickness="0" CornerRadius="0" CaptionHeight="0"/>
     </WindowChrome.WindowChrome>
     <Window.Resources>
+        <Style TargetType="GridViewColumnHeader">
+            <Setter Property="Foreground" Value="#C3C3C3"/>
+            <Setter Property="Background" Value="#282828"/>
+            <Setter Property="BorderBrush" Value="Transparent"></Setter>
+        </Style>
+
         <Style TargetType="Button" x:Key="WindowControlButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter x:Name="PART_Content"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              TextElement.Foreground="{TemplateBinding Foreground}"></ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
             <Setter Property="FontSize" Value="20"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="#CACACA"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Width" Value="40"/>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Red"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
 
         <Style TargetType="Button" x:Key="ControlButton">
             <Setter Property="FontSize" Value="30"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="#F5EADE"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="FontFamily" Value="{StaticResource FontAwesome}"/>
@@ -31,6 +58,11 @@
                BasedOn="{StaticResource ControlButton}">
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="Opacity" Value="0.4" />
+        </Style>
+
+        <Style TargetType="Label" x:Key="SongInfo">
+            <Setter Property="Foreground" Value="#CACACA"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
         </Style>
     </Window.Resources>
 
@@ -68,10 +100,10 @@
 
                     <Grid Grid.Row="2">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                            <Label Name="CurrentTitle" Content="Title" Foreground="White" FontSize="30" HorizontalContentAlignment="Center"/>
-                            <Label Name="CurrentArtist" Content="Artist" Foreground="White" FontSize="20" HorizontalContentAlignment="Center"/>
-                            <Label Name="CurrentAlbum" Content="Album" Foreground="White" FontSize="15" HorizontalContentAlignment="Center"/>
-                            <Label Name="CurrentOtherData" Content="Data" Foreground="White" FontSize="15" HorizontalContentAlignment="Center"/>
+                            <Label Name="CurrentTitle" Content="Title" FontSize="20" Style="{StaticResource SongInfo}"/>
+                            <Label Name="CurrentArtist" Content="Artist" FontSize="15" Style="{StaticResource SongInfo}"/>
+                            <Label Name="CurrentAlbum" Content="Album" FontSize="10" Style="{StaticResource SongInfo}"/>
+                            <Label Name="CurrentOtherData" Content="Data" FontSize="10" Style="{StaticResource SongInfo}"/>
                         </StackPanel>
                     </Grid>
 
@@ -89,9 +121,9 @@
 
                 <Grid Grid.Row="0">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button Content="🗕" Style="{StaticResource WindowControlButton}"/>
-                        <Button Content="🗗" Style="{StaticResource WindowControlButton}"/>
-                        <Button Content="X" Style="{StaticResource WindowControlButton}"/>
+                        <Button Name="BtnMinimize" Content="🗕" Style="{StaticResource WindowControlButton}" Click="BtnMinimize_OnClick"/>
+                        <Button Name="BtnMaximize" Content="🗗" Style="{StaticResource WindowControlButton}" Click="BtnMaximize_OnClick"/>
+                        <Button Name="BtnClose" Content="X" Style="{StaticResource WindowControlButton}" Click="BtnClose_OnClick"/>
                     </StackPanel>
                 </Grid>
 

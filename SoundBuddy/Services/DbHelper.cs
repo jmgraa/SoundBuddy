@@ -1,53 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data;
+﻿using System.Data;
 using System.Data.SQLite;
 
 namespace SoundBuddy.Services
 {
     internal static class DbHelper
     {
-        private static string _connectionString = "Data Source=C:\\Users\\jmgra\\Documents\\Projects\\C#\\SoundBuddy\\SoundBuddy\\Services\\SBData.db;Version=3;";
+        // TODO connection string fix
+        private const string ConnectionString = "Data Source=SBData.db;Version=3;";
 
         private static DataTable ExecuteQuery(string query)
         {
-            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
-            {
-                connection.Open();
-                using (SQLiteCommand command = new SQLiteCommand(query, connection))
-                {
-                    using (SQLiteDataAdapter adapter = new SQLiteDataAdapter(command))
-                    {
-                        DataTable dataTable = new DataTable();
-                        adapter.Fill(dataTable);
-                        return dataTable;
-                    }
-                }
-            }
+            using var connection = new SQLiteConnection(ConnectionString);
+            connection.Open();
+
+            using var command = new SQLiteCommand(query, connection);
+            using var adapter = new SQLiteDataAdapter(command);
+
+            var dataTable = new DataTable();
+            adapter.Fill(dataTable);
+
+            return dataTable;
         }
 
         private static bool ExecuteNonQuery(string query)
         {
-            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
+            using var connection = new SQLiteConnection(ConnectionString);
+
+            try
             {
-                try
-                {
-                    connection.Open();
-                    using (SQLiteCommand command = new SQLiteCommand(query, connection))
-                    {
-                        command.ExecuteNonQuery();
-                        Console.WriteLine("Operacja wykonana poprawnie.");
-                        return true;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Błąd podczas operacji: " + ex.Message);
-                    return false;
-                }
+                connection.Open();
+
+                using var command = new SQLiteCommand(query, connection);
+                command.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
             }
         }
 
@@ -55,28 +45,24 @@ namespace SoundBuddy.Services
         {
             var addingSuccess = ExecuteNonQuery($"INSERT INTO Songs (Path) VALUES ('{path}')");
 
-            if (addingSuccess)
-            {
-                var queryResult = ExecuteQuery($"SELECT Id FROM Songs WHERE Path = '{path}'");
+            if (!addingSuccess) 
+                return null;
 
-                foreach (DataRow row in queryResult.Rows)
-                {
-                    return int.Parse(row["Id"].ToString());
-                }
-            }
+            var queryResult = ExecuteQuery($"SELECT Id FROM Songs WHERE Path = '{path}'");
+
+            if (queryResult.Rows.Count > 0)
+                return int.Parse(queryResult.Rows[0]["Id"].ToString() ?? string.Empty);
 
             return null;
         }
 
-        public static List<(int, String)> GetAllPathsAndIds()
+        public static List<(int, string)> GetAllPathsAndIds()
         {
-            List<(int, String)> pathsAndIds = new List<(int, String)>();
+            var pathsAndIds = new List<(int, string)>();
             var queryResult = ExecuteQuery("SELECT Id, Path FROM Songs;");
 
             foreach (DataRow row in queryResult.Rows)
-            {
                 pathsAndIds.Add((int.Parse(row["Id"].ToString()), row["Path"].ToString()));
-            }
 
             return pathsAndIds;
         }

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SoundBuddy.Models;
+﻿using SoundBuddy.Models;
 using SoundBuddy.Services;
+using System.Collections.ObjectModel;
 
 namespace SoundBuddy.ViewModels
 {
@@ -13,13 +8,11 @@ namespace SoundBuddy.ViewModels
     {
         public static ObservableCollection<Song> GetAllSongs()
         {
-            List<(int, String)> pathsAndIds = DbHelper.GetAllPathsAndIds();
-            ObservableCollection<Song> songs = new ObservableCollection<Song>();
+            var pathsAndIds = DbHelper.GetAllPathsAndIds();
+            var songs = new ObservableCollection<Song>();
 
             foreach (var pathAndId in pathsAndIds)
-            {
                 songs.Add(TagService.GetSongData(pathAndId.Item2, pathAndId.Item1));
-            }
 
             return songs;
         }
@@ -28,10 +21,7 @@ namespace SoundBuddy.ViewModels
         {
             var id = DbHelper.AddSongToDatabase(path);
 
-            if (id != null)
-                return TagService.GetSongData(path, (int)id);
-
-            return null;
+            return id != null ? TagService.GetSongData(path, (int)id) : null;
         }
     }
 }

@@ -1,119 +1,109 @@
 ﻿using NAudio.Wave;
-using System.Threading;
-using TagLib.Mpeg;
+using System.IO;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace SoundBuddy.Services
 {
-    public class AudioPlayer : IDisposable
+    public class AudioPlayer
     {
-        private IWavePlayer wavePlayer;
-        private AudioFileReader audioFile;
-        private string filePath;
+        private WaveOutEvent? _wavePlayer;
+        private AudioFileReader? _audioFile;
+        private readonly DispatcherTimer _timer = new();
+        private readonly Label _currentTimeLabel;
+        private readonly Label _leftTimeLabel;
 
-        private int counter = 0;
-
-        public PlaybackState PlaybackState => wavePlayer?.PlaybackState ?? PlaybackState.Stopped;
-
-        public event EventHandler<PlaybackProgressEventArgs> PlaybackProgressChanged;
-
-        public AudioPlayer()
+        public AudioPlayer(Label currentTimeLabel, Label leftTimeLabel)
         {
-            wavePlayer = new WaveOutEvent();
-            wavePlayer.PlaybackStopped += (sender, args) =>
-            {
-                if (audioFile != null)
-                {
-                    audioFile.Position = 0; // Przewiń do początku pliku po zakończeniu odtwarzania
-                }
-            };
+            _timer.Interval = TimeSpan.FromSeconds(1);
+            _timer.Tick += Timer_Tick;
+
+            _currentTimeLabel = currentTimeLabel;
+            _leftTimeLabel = leftTimeLabel;
+            UpdateTimeLabel();
+            
         }
 
-        public void Play(string filePath)
+        public void Load(string filePath)
         {
-            if (PlaybackState == PlaybackState.Playing)
+            if (File.Exists(filePath) && Path.GetExtension(filePath).ToLower() == ".mp3")
             {
-                Stop();
+                Dispose();
+
+                _audioFile = new AudioFileReader(filePath);
+                _wavePlayer = new WaveOutEvent();
+                _wavePlayer.Init(_audioFile);
+                UpdateTimeLabel();
             }
+            else
+                MessageBox.Show("Error! Cannot load");
+        }
 
-            this.filePath = filePath;
+        public void Play()
+        {
+            if (_wavePlayer == null || _audioFile == null)
+                return;
 
-            audioFile = new AudioFileReader(filePath);
-            wavePlayer.Init(audioFile);
-            wavePlayer.Play();
-
-            Task.Run(() => MonitorPlaybackProgress());
+            _wavePlayer.Play();
+            _timer.Start();
         }
 
         public void Pause()
         {
-            if (PlaybackState == PlaybackState.Playing)
-            {
-                wavePlayer.Pause();
-            }
-        }
+            if (_wavePlayer == null)
+                return;
 
-        public void Resume()
-        {
-            if (PlaybackState == PlaybackState.Paused)
-            {
-                wavePlayer.Play();
-            }
+            _wavePlayer.Pause();
+            _timer.Stop();
         }
 
         public void Stop()
         {
-            wavePlayer?.Stop();
+            if (_wavePlayer == null || _audioFile == null) 
+                return;
+
+            _wavePlayer.Stop();
+            _timer.Stop();
+            _audioFile.Position = 0;
+            UpdateTimeLabel();
         }
 
-        private async Task MonitorPlaybackProgress()
+        private void Timer_Tick(object sender, EventArgs e)
         {
-            while (PlaybackState == PlaybackState.Playing)
-            {
-                OnPlaybackProgressChanged(new PlaybackProgressEventArgs(audioFile.Position, audioFile.Length, audioFile.WaveFormat.SampleRate));
-                await Task.Delay(100);
-            }
+            if (_wavePlayer != null && _audioFile != null)
+                UpdateTimeLabel();
         }
 
-        protected virtual void OnPlaybackProgressChanged(PlaybackProgressEventArgs e)
+        // TODO implement leftTimeLabel 
+        private void UpdateTimeLabel()
         {
-            PlaybackProgressChanged?.Invoke(this, e);
+            if (_audioFile != null)
+                _currentTimeLabel.Content = FormatTime(_audioFile.CurrentTime);
+        }
+
+        private static string FormatTime(TimeSpan time)
+        {
+            return $"{(int)time.TotalMinutes:D2}:{time.Seconds:D2}";
         }
 
         public void Dispose()
         {
             Stop();
-            wavePlayer?.Dispose();
-            audioFile?.Dispose();
-        }
-    }
 
-    public class PlaybackProgressEventArgs : EventArgs
-    {
-        public long CurrentPosition { get; }
-        public long TotalLength { get; }
-        public int SampleRate { get; }
-
-        public PlaybackProgressEventArgs(long currentPosition, long totalLength, int sampleRate)
-        {
-            CurrentPosition = currentPosition;
-            TotalLength = totalLength;
-            SampleRate = sampleRate;
-        }
-
-        public double GetElapsedTimeInSeconds()
-        {
-            if (SampleRate == 0)
+            if (_audioFile != null)
             {
-                return 0;
+                _audioFile.Dispose();
+                _audioFile = null;
             }
 
-            double elapsedTime = (double)CurrentPosition / SampleRate;
-            return elapsedTime;
-        }
+            if (_wavePlayer != null)
+            {
+                _wavePlayer.Dispose();
+                _wavePlayer = null;
+            }
 
-        public double GetTotalTimeInSeconds()
-        {
-            return (double)TotalLength / SampleRate;
+            _currentTimeLabel.Content = "00:00";
         }
     }
 

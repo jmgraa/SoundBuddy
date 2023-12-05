@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SoundBuddy.Models;
+﻿using SoundBuddy.Models;
 
 namespace SoundBuddy.Services
 {
@@ -12,25 +6,22 @@ namespace SoundBuddy.Services
     {
         public static Song GetSongData(string path, int id)
         {
-            using (var file = TagLib.File.Create(path))
-            {
-                string? title = file.Tag.Title;
-                string? artist = file.Tag.FirstAlbumArtist;
-                string? album = file.Tag.Album;
-                string[] genres = file.Tag.Genres;
-                uint? year = file.Tag.Year;
+            using var file = TagLib.File.Create(path);
 
-                TagLib.IPicture? picture = null;
+            var title = file.Tag.Title;
+            var artist = file.Tag.FirstAlbumArtist;
+            var album = file.Tag.Album;
+            var genres = file.Tag.Genres;
+            var year = file.Tag.Year;
 
-                if (file.Tag.Pictures.Length > 0)
-                {
-                     picture = file.Tag.Pictures[0];
-                }
+            TagLib.IPicture? picture = null;
 
-                var genre = genres.Length > 0 ? genres[0] : null;
+            if (file.Tag.Pictures.Length > 0)
+                picture = file.Tag.Pictures[0];
 
-                return new Song(id, title, artist, album, genre, year, picture, path);
-            }
+            var genre = genres.Length > 0 ? genres[0] : null;
+
+            return new Song(id, title, artist, album, genre, year, picture, path);
         }
     }
 }

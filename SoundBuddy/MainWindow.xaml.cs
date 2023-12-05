@@ -1,19 +1,9 @@
 ﻿using SoundBuddy.Models;
-using System.Collections.ObjectModel;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Microsoft.Win32;
-using SoundBuddy.ViewModels;
-using System.IO;
 using SoundBuddy.Services;
+using SoundBuddy.ViewModels;
+using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Input;
 
 namespace SoundBuddy
 {
@@ -21,7 +11,9 @@ namespace SoundBuddy
     {
         public ObservableCollection<Song> AllSongs = SongManagement.GetAllSongs();
 
-        AudioPlayer _audioPlayer = new AudioPlayer();
+        private readonly AudioPlayer _audioPlayer;
+        private readonly DisplayController _displayController;
+        private readonly FileController _fileController;
 
         public MainWindow()
         {
@@ -31,56 +23,37 @@ namespace SoundBuddy
 
             songListView.ItemsSource = AllSongs;
 
-            _audioPlayer.PlaybackProgressChanged += (sender, args) =>
-            {
-                double elapsedTime = args.GetElapsedTimeInSeconds();
-                double totalTime = args.GetTotalTimeInSeconds();
-
-                // Użycie Dispatcher.Invoke do przejścia do wątku głównego
-                Dispatcher.Invoke(() =>
-                {
-                    LbCurrentTime.Content = $"{elapsedTime:F0} s";
-                    LbLeftTime.Content = $"{totalTime:F0} s";
-                });
-            };
-
+            _audioPlayer = new AudioPlayer(LbCurrentTime, LbCurrentTime);
+            _displayController = new DisplayController(this);
+            _fileController = new FileController(this);
         }
 
         private void BtnAddSongs_OnClick(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog fileDialog = new OpenFileDialog
-            {
-                Filter = "MP3 Files | *.mp3",
-                Title = "Select the songs you want to add",
-                Multiselect = true
-            };
+            var paths = _fileController.SelectSongFiles();
 
-            var success = fileDialog.ShowDialog();
-            if (success == true)
-            {
-                string[] paths = fileDialog.FileNames;
+            if (paths == null) 
+                return;
 
-                foreach (var path in paths)
-                {
-                    var newSong = SongManagement.AddSongToDatabase(path);
-                    if (newSong != null)
-                        AllSongs.Add(newSong);
-                }
+            foreach (var path in paths)
+            {
+                var newSong = SongManagement.AddSongToDatabase(path);
+                if (newSong != null)
+                    AllSongs.Add(newSong);
             }
         }
 
         private void SongListView_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (songListView.SelectedItem != null)
-            {
-                Song song = (Song)songListView.SelectedItem;
+            if (songListView.SelectedItem == null) 
+                return;
 
-                _audioPlayer.Play(song.Path);
+            var song = (Song)songListView.SelectedItem;
 
-                CurrentTitle.Content = song.Title;
-                CurrentArtist.Content = song.Artist;
-                CurrentAlbum.Content = song.Album;
-            }
+            _audioPlayer.Load(song.Path);
+            _audioPlayer.Play();
+
+            _displayController.ShowCurrentSongData(song);
         }
 
         private void BtnStop_OnClick(object sender, RoutedEventArgs e)
@@ -90,12 +63,27 @@ namespace SoundBuddy
 
         private void BtnPlay_OnClick(object sender, RoutedEventArgs e)
         {
-            _audioPlayer.Resume();
+            _audioPlayer.Play();
         }
 
         private void BtnPause_OnClick(object sender, RoutedEventArgs e)
         {
             _audioPlayer.Pause();
+        }
+
+        private void BtnMinimize_OnClick(object sender, RoutedEventArgs e)
+        {
+            _displayController.MinimizeWindow();
+        }
+
+        private void BtnMaximize_OnClick(object sender, RoutedEventArgs e)
+        {
+            _displayController.MaximizeWindow();
+        }
+
+        private void BtnClose_OnClick(object sender, RoutedEventArgs e)
+        {
+            _displayController.CloseWindow();
         }
     }
 }
