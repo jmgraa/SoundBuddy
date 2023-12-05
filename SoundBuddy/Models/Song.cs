@@ -17,8 +17,9 @@ namespace SoundBuddy.Models
         private string? _genre;
         private uint? _year;
         private TagLib.IPicture? _cover;
+        private string _path;
 
-        public Song(int id, string title, string artist, string album, string? genre, uint? year, TagLib.IPicture? cover)
+        public Song(int id, string title, string artist, string album, string? genre, uint? year, TagLib.IPicture? cover, string path)
         {
             _id = id;
             _title = title;
@@ -27,6 +28,7 @@ namespace SoundBuddy.Models
             _genre = genre;
             _year = year;
             _cover = cover;
+            _path = path;
         }
 
         public string Title
@@ -75,6 +77,26 @@ namespace SoundBuddy.Models
             set
             {
                 _year = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public TagLib.IPicture? Cover
+        {
+            get => _cover;
+            set
+            {
+                _cover = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Path
+        {
+            get => _path;
+            set
+            {
+                _path = value;
                 OnPropertyChanged();
             }
         }

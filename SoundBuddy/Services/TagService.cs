@@ -29,7 +29,7 @@ namespace SoundBuddy.Services
 
                 var genre = genres.Length > 0 ? genres[0] : null;
 
-                return new Song(id, title, artist, album, genre, year, picture);
+                return new Song(id, title, artist, album, genre, year, picture, path);
             }
         }
     }

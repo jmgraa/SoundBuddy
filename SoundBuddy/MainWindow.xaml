@@ -63,7 +63,7 @@
                     </Grid>
 
                     <Grid Grid.Row="1">
-                        <Image Width="200" Height="200" Margin="5"/>
+                        <Image Name="CurrentCover" Width="200" Height="200" Margin="5" Stretch="UniformToFill"/>
                     </Grid>
 
                     <Grid Grid.Row="2">
@@ -156,9 +156,9 @@
                 <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <Button Content="&#xf048;" Style="{StaticResource ControlButton}"/>
-                        <Button Content="&#xf04d;" Style="{StaticResource ControlButton}"/>
-                        <Button Content="&#xf144;" FontSize="40" Style="{StaticResource ControlButton}"/>
-                        <Button Content="&#xf04c;" Style="{StaticResource ControlButton}"/>
+                        <Button Name="BtnStop" Content="&#xf04d;" Style="{StaticResource ControlButton}" Click="BtnStop_OnClick"/>
+                        <Button Name="BtnPlay" Content="&#xf144;" FontSize="40" Style="{StaticResource ControlButton}" Click="BtnPlay_OnClick"/>
+                        <Button Name="BtnPause" Content="&#xf04c;" Style="{StaticResource ControlButton}" Click="BtnPause_OnClick"/>
                         <Button Content="&#xf051;" Style="{StaticResource ControlButton}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -176,8 +176,8 @@
 
                 <Grid Grid.Row="0">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Label Content="99:99" Foreground="White"/>
-                        <Label Content="PROGRESS BAR" Foreground="White"/>
+                        <Label Name="LbCurrentTime" Content="99:99" Foreground="White"/>
+                        <Label Name="LbLeftTime" Content="PROGRESS BAR" Foreground="White"/>
                         <Label Content="99:99" Foreground="White"/>
                     </StackPanel>
                 </Grid>
