@@ -16,6 +16,7 @@
     <Folder Include="Commands\" />
     <Folder Include="Utilities\" />
     <Folder Include="Observers\" />
+    <Folder Include="Views\" />
   </ItemGroup>
 
   <ItemGroup>

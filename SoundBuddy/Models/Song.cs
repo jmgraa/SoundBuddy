@@ -10,6 +10,7 @@ namespace SoundBuddy.Models
 {
     public class Song : INotifyPropertyChanged
     {
+        private int _id;
         private string? _title;
         private string? _artist;
         private string? _album;
@@ -17,8 +18,9 @@ namespace SoundBuddy.Models
         private uint? _year;
         private TagLib.IPicture? _cover;
 
-        public Song(string title, string artist, string album, string? genre, uint? year, TagLib.IPicture? cover)
+        public Song(int id, string title, string artist, string album, string? genre, uint? year, TagLib.IPicture? cover)
         {
+            _id = id;
             _title = title;
             _artist = artist;
             _album = album;

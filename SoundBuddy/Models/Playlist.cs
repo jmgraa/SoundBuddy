@@ -10,5 +10,6 @@ namespace SoundBuddy.Models
     {
         public int Id;
         public string Name;
-        public TagLib.IPicture cover;
+        public TagLib.IPicture Cover;
+    }
 }

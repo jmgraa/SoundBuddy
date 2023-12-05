@@ -10,7 +10,7 @@ namespace SoundBuddy.Services
 {
     internal static class TagService
     {
-        public static Song GetSongData(string path)
+        public static Song GetSongData(string path, int id)
         {
             using (var file = TagLib.File.Create(path))
             {
@@ -29,7 +29,7 @@ namespace SoundBuddy.Services
 
                 var genre = genres.Length > 0 ? genres[0] : null;
 
-                return new Song(title, artist, album, genre, year, picture);
+                return new Song(id, title, artist, album, genre, year, picture);
             }
         }
     }

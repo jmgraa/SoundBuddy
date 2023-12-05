@@ -10,16 +10,11 @@ namespace SoundBuddy.Services
 {
     internal static class DbHelper
     {
-        private string connectionString;
+        private static string _connectionString = "Data Source=C:\\Users\\jmgra\\Documents\\Projects\\C#\\SoundBuddy\\SoundBuddy\\Services\\SBData.db;Version=3;";
 
-        public DbHelper(string dbPath)
+        private static DataTable ExecuteQuery(string query)
         {
-            connectionString = $"Data Source={dbPath};Version=3;";
-        }
-
-        public static DataTable ExecuteQuery(string query)
-        {
-            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
                 connection.Open();
                 using (SQLiteCommand command = new SQLiteCommand(query, connection))
@@ -34,29 +29,56 @@ namespace SoundBuddy.Services
             }
         }
 
-        public static void ExecuteNonQuery(string query)
+        private static bool ExecuteNonQuery(string query)
         {
-            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
-                connection.Open();
-                using (SQLiteCommand command = new SQLiteCommand(query, connection))
+                try
                 {
-                    command.ExecuteNonQuery();
+                    connection.Open();
+                    using (SQLiteCommand command = new SQLiteCommand(query, connection))
+                    {
+                        command.ExecuteNonQuery();
+                        Console.WriteLine("Operacja wykonana poprawnie.");
+                        return true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Błąd podczas operacji: " + ex.Message);
+                    return false;
                 }
             }
         }
 
-        public static List<String> GetAllPaths()
+        public static int? AddSongToDatabase(string path)
         {
-            List<String> paths = new List<String>();
-            var querryResult = ExecuteQuery("SELECT Path FROM Songs;");
+            var addingSuccess = ExecuteNonQuery($"INSERT INTO Songs (Path) VALUES ('{path}')");
 
-            foreach (DataRow row in querryResult.Rows)
+            if (addingSuccess)
             {
-                paths.Append(row["Path"].ToString());
+                var queryResult = ExecuteQuery($"SELECT Id FROM Songs WHERE Path = '{path}'");
+
+                foreach (DataRow row in queryResult.Rows)
+                {
+                    return int.Parse(row["Id"].ToString());
+                }
             }
 
-            return paths;
+            return null;
+        }
+
+        public static List<(int, String)> GetAllPathsAndIds()
+        {
+            List<(int, String)> pathsAndIds = new List<(int, String)>();
+            var queryResult = ExecuteQuery("SELECT Id, Path FROM Songs;");
+
+            foreach (DataRow row in queryResult.Rows)
+            {
+                pathsAndIds.Add((int.Parse(row["Id"].ToString()), row["Path"].ToString()));
+            }
+
+            return pathsAndIds;
         }
     }
 }

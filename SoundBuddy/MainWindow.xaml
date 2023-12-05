@@ -4,8 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SoundBuddy"
-        mc:Ignorable="d"
+        mc:Ignorable="d" WindowStyle="None"
         Title="MainWindow" Height="600" Width="800">
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="0" CornerRadius="0" CaptionHeight="0"/>
+    </WindowChrome.WindowChrome>
     <Window.Resources>
         <Style TargetType="Button" x:Key="WindowControlButton">
             <Setter Property="FontSize" Value="20"/>
@@ -65,10 +68,10 @@
 
                     <Grid Grid.Row="2">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                            <Label Content="Title" Foreground="White" FontSize="30" HorizontalContentAlignment="Center"/>
-                            <Label Content="Artist" Foreground="White" FontSize="20" HorizontalContentAlignment="Center"/>
-                            <Label Content="Album" Foreground="White" FontSize="15" HorizontalContentAlignment="Center"/>
-                            <Label Content="Data" Foreground="White" FontSize="15" HorizontalContentAlignment="Center"/>
+                            <Label Name="CurrentTitle" Content="Title" Foreground="White" FontSize="30" HorizontalContentAlignment="Center"/>
+                            <Label Name="CurrentArtist" Content="Artist" Foreground="White" FontSize="20" HorizontalContentAlignment="Center"/>
+                            <Label Name="CurrentAlbum" Content="Album" Foreground="White" FontSize="15" HorizontalContentAlignment="Center"/>
+                            <Label Name="CurrentOtherData" Content="Data" Foreground="White" FontSize="15" HorizontalContentAlignment="Center"/>
                         </StackPanel>
                     </Grid>
 
@@ -104,17 +107,31 @@
                         <Rectangle Grid.Row="2" Fill="#1F1F1F"/>
 
                         <Grid Grid.Row="0">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                <Button Content="Local files" Foreground="White" Background="Transparent" FontSize="15" BorderThickness="0" Margin="5, 0, 5, 0"/>
-                                <Button Content="Playlists" Foreground="White" Background="Transparent" FontSize="15" BorderThickness="0" Margin="5, 0, 5, 0"/>
-                            </StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid Grid.Column="0">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <Button Content="Local files" Foreground="White" Background="Transparent" FontSize="15" BorderThickness="0" Margin="5, 0, 5, 0"/>
+                                        <Button Content="Playlists" Foreground="White" Background="Transparent" FontSize="15" BorderThickness="0" Margin="5, 0, 5, 0"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <Grid Grid.Column="1" HorizontalAlignment="Right">
+                                    <Button Name="BtnAddSongs"  Content="Add songs" Foreground="White" Background="Transparent" FontSize="15" BorderThickness="0" Margin="5, 0, 5, 0" Click="BtnAddSongs_OnClick"/>
+                                </Grid>
+                            </Grid>
+                            
                         </Grid>
                         <Grid Grid.Row="1">
-                            <ListView x:Name="songListView" ItemsSource="{Binding AllSongs}" Background="Transparent">
+                            <ListView x:Name="songListView" Foreground="White" Background="Transparent" MouseDoubleClick="SongListView_OnMouseDoubleClick">
                                 <ListView.View>
                                     <GridView>
-                                        <GridViewColumn Header="Tytuł" DisplayMemberBinding="{Binding Title}"/>
-                                        <GridViewColumn Header="Wykonawca" DisplayMemberBinding="{Binding Artist}"/>
+                                        <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}"/>
+                                        <GridViewColumn Header="Artist" DisplayMemberBinding="{Binding Artist}"/>
                                         <GridViewColumn Header="Album" DisplayMemberBinding="{Binding Album}"/>
                                         <GridViewColumn Header="Genre" DisplayMemberBinding="{Binding Genre}"/>
                                         <GridViewColumn Header="Year" DisplayMemberBinding="{Binding Year}"/>
