@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
+using System.Windows.Media.Imaging;
 using SoundBuddy.Models;
 
 namespace SoundBuddy.ViewModels
@@ -23,8 +25,25 @@ namespace SoundBuddy.ViewModels
         public void ShowCurrentSongData(Song song)
         {
             window.CurrentTitle.Content = song.Title != null ? song.Title : "Unknown title";
-            window.CurrentArtist.Content = song.Artist != null ? song.Artist : "Unknown artist";
+            window.CurrentArtist.Content = song.Artists != null ? song.Artists : "Unknown artist";
             window.CurrentAlbum.Content = song.Album != null ? song.Album : "Unknown album";
+
+            if (song.Cover != null)
+            {
+                var bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.StreamSource = new MemoryStream(song.Cover.Data.Data);
+                bitmapImage.EndInit();
+
+                window.CurrentCover.Source = bitmapImage;
+            }
+            else
+            {
+
+            }
+            
+
+
         }
     }
 }

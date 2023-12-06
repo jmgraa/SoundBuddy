@@ -101,7 +101,7 @@
                     <Grid Grid.Row="2">
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                             <Label Name="CurrentTitle" Content="Title" FontSize="20" Style="{StaticResource SongInfo}"/>
-                            <Label Name="CurrentArtist" Content="Artist" FontSize="15" Style="{StaticResource SongInfo}"/>
+                            <Label Name="CurrentArtist" Content="Artists" FontSize="15" Style="{StaticResource SongInfo}"/>
                             <Label Name="CurrentAlbum" Content="Album" FontSize="10" Style="{StaticResource SongInfo}"/>
                             <Label Name="CurrentOtherData" Content="Data" FontSize="10" Style="{StaticResource SongInfo}"/>
                         </StackPanel>
@@ -147,13 +147,13 @@
 
                                 <Grid Grid.Column="0">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                        <Button Content="Local files" Foreground="White" Background="Transparent" FontSize="15" BorderThickness="0" Margin="5, 0, 5, 0"/>
-                                        <Button Content="Playlists" Foreground="White" Background="Transparent" FontSize="15" BorderThickness="0" Margin="5, 0, 5, 0"/>
+                                        <Button Content="Local files" Foreground="White" Background="Transparent" FontSize="15" BorderThickness="0" Margin="5, 0, 5, 0" FontWeight="Bold"/>
+                                        <Button Content="Playlists" Foreground="White" Background="Transparent" FontSize="15" BorderThickness="0" Margin="5, 0, 5, 0" FontWeight="Bold"/>
                                     </StackPanel>
                                 </Grid>
 
                                 <Grid Grid.Column="1" HorizontalAlignment="Right">
-                                    <Button Name="BtnAddSongs"  Content="Add songs" Foreground="White" Background="Transparent" FontSize="15" BorderThickness="0" Margin="5, 0, 5, 0" Click="BtnAddSongs_OnClick"/>
+                                    <Button Name="BtnAddSongs"  Content="Add songs" Foreground="White" Background="Transparent" FontSize="15" BorderThickness="0" Margin="5, 0, 5, 0" Click="BtnAddSongs_OnClick" FontWeight="Bold"/>
                                 </Grid>
                             </Grid>
                             
@@ -163,7 +163,7 @@
                                 <ListView.View>
                                     <GridView>
                                         <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}"/>
-                                        <GridViewColumn Header="Artist" DisplayMemberBinding="{Binding Artist}"/>
+                                        <GridViewColumn Header="Artists" DisplayMemberBinding="{Binding Artists}"/>
                                         <GridViewColumn Header="Album" DisplayMemberBinding="{Binding Album}"/>
                                         <GridViewColumn Header="Genre" DisplayMemberBinding="{Binding Genre}"/>
                                         <GridViewColumn Header="Year" DisplayMemberBinding="{Binding Year}"/>
@@ -208,9 +208,8 @@
 
                 <Grid Grid.Row="0">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Label Name="LbCurrentTime" Content="99:99" Foreground="White"/>
-                        <Label Name="LbLeftTime" Content="PROGRESS BAR" Foreground="White"/>
-                        <Label Content="99:99" Foreground="White"/>
+                        <Label Name="LbCurrentTime" Content="0:00" Foreground="White"/>
+                        <Label Content="0:00" Foreground="White"/>
                     </StackPanel>
                 </Grid>
 

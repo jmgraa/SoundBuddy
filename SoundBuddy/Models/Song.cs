@@ -7,7 +7,7 @@ namespace SoundBuddy.Models
     {
         private int _id;
         private string? _title;
-        private string? _artist;
+        private string[]? _artists;
         private string? _album;
         private string? _genre;
         private uint? _year;
@@ -16,11 +16,11 @@ namespace SoundBuddy.Models
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Song(int id, string? title, string? artist, string? album, string? genre, uint? year, TagLib.IPicture? cover, string path)
+        public Song(int id, string? title, string[]? artists, string? album, string? genre, uint? year, TagLib.IPicture? cover, string path)
         {
             _id = id;
             _title = title;
-            _artist = artist;
+            _artists = artists;
             _album = album;
             _genre = genre;
             _year = year;
@@ -43,12 +43,12 @@ namespace SoundBuddy.Models
             }
         }
 
-        public string Artist
+        public string? Artists
         {
-            get => _artist;
+            get => string.Join(", ", _artists);
             set
             {
-                _artist = value;
+                // TODO type
                 OnPropertyChanged();
             }
         }

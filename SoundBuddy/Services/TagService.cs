@@ -9,7 +9,7 @@ namespace SoundBuddy.Services
             using var file = TagLib.File.Create(path);
 
             var title = file.Tag.Title;
-            var artist = file.Tag.FirstAlbumArtist;
+            var artist = file.Tag.Artists;
             var album = file.Tag.Album;
             var genres = file.Tag.Genres;
             var year = file.Tag.Year;

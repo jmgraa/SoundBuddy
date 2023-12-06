@@ -4,6 +4,7 @@ using SoundBuddy.ViewModels;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace SoundBuddy
 {
@@ -13,7 +14,6 @@ namespace SoundBuddy
 
         private readonly AudioPlayer _audioPlayer;
         private readonly DisplayController _displayController;
-        private readonly FileController _fileController;
 
         public MainWindow()
         {
@@ -25,12 +25,11 @@ namespace SoundBuddy
 
             _audioPlayer = new AudioPlayer(LbCurrentTime, LbCurrentTime);
             _displayController = new DisplayController(this);
-            _fileController = new FileController(this);
         }
 
         private void BtnAddSongs_OnClick(object sender, RoutedEventArgs e)
         {
-            var paths = _fileController.SelectSongFiles();
+            var paths = FileController.SelectSongFiles();
 
             if (paths == null) 
                 return;
