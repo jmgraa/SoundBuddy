@@ -23,7 +23,7 @@ namespace SoundBuddy
 
             songListView.ItemsSource = AllSongs;
 
-            _audioPlayer = new AudioPlayer(LbCurrentTime, LbCurrentTime);
+            _audioPlayer = new AudioPlayer(LbCurrentTime, LbLeftTime);
             _displayController = new DisplayController(this);
         }
 

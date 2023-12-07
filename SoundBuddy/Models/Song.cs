@@ -10,13 +10,13 @@ namespace SoundBuddy.Models
         private string[]? _artists;
         private string? _album;
         private string? _genre;
-        private uint? _year;
+        private uint _year;
         private TagLib.IPicture? _cover;
         private string _path;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Song(int id, string? title, string[]? artists, string? album, string? genre, uint? year, TagLib.IPicture? cover, string path)
+        public Song(int id, string? title, string[]? artists, string? album, string? genre, uint year, TagLib.IPicture? cover, string path)
         {
             _id = id;
             _title = title;
@@ -45,7 +45,7 @@ namespace SoundBuddy.Models
 
         public string? Artists
         {
-            get => string.Join(", ", _artists);
+            get => _artists != null ? string.Join(", ", _artists) : "Unknown artist";
             set
             {
                 // TODO type
@@ -55,7 +55,7 @@ namespace SoundBuddy.Models
 
         public string Album
         {
-            get => _album;
+            get => _album ?? "Unknown album";
             set
             {
                 _album = value;
@@ -65,7 +65,7 @@ namespace SoundBuddy.Models
 
         public string Genre
         {
-            get => _genre;
+            get => _genre ?? "Unknown genre";
             set
             {
                 _genre = value;
@@ -73,12 +73,12 @@ namespace SoundBuddy.Models
             }
         }
 
-        public uint? Year
+        public string Year
         {
-            get => _year;
+            get => _year != 0 ? _year.ToString() : "Unknown year";
             set
             {
-                _year = value;
+                _year = uint.Parse(value);
                 OnPropertyChanged();
             }
         }

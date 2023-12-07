@@ -75,11 +75,13 @@ namespace SoundBuddy.Services
                 UpdateTimeLabel();
         }
 
-        // TODO implement leftTimeLabel 
         private void UpdateTimeLabel()
         {
-            if (_audioFile != null)
-                _currentTimeLabel.Content = FormatTime(_audioFile.CurrentTime);
+            if (_audioFile == null)
+                return;
+
+            _currentTimeLabel.Content = FormatTime(_audioFile.CurrentTime);
+            _leftTimeLabel.Content = $"-{FormatTime(_audioFile.TotalTime - _audioFile.CurrentTime)}";
         }
 
         private static string FormatTime(TimeSpan time)
