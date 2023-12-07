@@ -5,28 +5,42 @@ using SoundBuddy.Models;
 
 namespace SoundBuddy.ViewModels
 {
-    internal class DisplayController(MainWindow window)
+    internal class DisplayController
     {
+        private readonly MainWindow _window;
+        private readonly BitmapImage _soundBuddyLogo;
+
+        public DisplayController(MainWindow window)
+        {
+            _window = window;
+
+            _soundBuddyLogo = new BitmapImage();
+            _soundBuddyLogo.BeginInit();
+            // TODO fix path
+            _soundBuddyLogo.UriSource = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}SoundBuddy.png", UriKind.RelativeOrAbsolute);
+            _soundBuddyLogo.EndInit();
+        }
+
         public void MinimizeWindow()
         {
-            window.WindowState = WindowState.Minimized;
+            _window.WindowState = WindowState.Minimized;
         }
 
         public void MaximizeWindow()
         {
-            window.WindowState = window.WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
+            _window.WindowState = _window.WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
         }
 
         public void CloseWindow()
         {
-            window.Close();
+            _window.Close();
         }
 
         public void ShowCurrentSongData(Song song)
         {
-            window.CurrentTitle.Content = song.Title != null ? song.Title : "Unknown title";
-            window.CurrentArtist.Content = song.Artists != null ? song.Artists : "Unknown artist";
-            window.CurrentAlbum.Content = song.Album != null ? song.Album : "Unknown album";
+            _window.CurrentTitle.Content = song.Title != null ? song.Title : "Unknown title";
+            _window.CurrentArtist.Content = song.Artists != null ? song.Artists : "Unknown artist";
+            _window.CurrentAlbum.Content = song.Album != null ? song.Album : "Unknown album";
 
             if (song.Cover != null)
             {
@@ -35,15 +49,12 @@ namespace SoundBuddy.ViewModels
                 bitmapImage.StreamSource = new MemoryStream(song.Cover.Data.Data);
                 bitmapImage.EndInit();
 
-                window.CurrentCover.Source = bitmapImage;
+                _window.CurrentCover.Source = bitmapImage;
             }
             else
             {
-
+                _window.CurrentCover.Source = _soundBuddyLogo;
             }
-            
-
-
         }
     }
 }
