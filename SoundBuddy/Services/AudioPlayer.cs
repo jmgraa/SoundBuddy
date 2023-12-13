@@ -13,14 +13,18 @@ namespace SoundBuddy.Services
         private readonly DispatcherTimer _timer = new();
         private readonly Label _currentTimeLabel;
         private readonly Label _leftTimeLabel;
+        private readonly ProgressBar _progressBar;
 
-        public AudioPlayer(Label currentTimeLabel, Label leftTimeLabel)
+        public AudioPlayer(Label currentTimeLabel, Label leftTimeLabel, ProgressBar progressBar)
         {
             _timer.Interval = TimeSpan.FromSeconds(1);
             _timer.Tick += Timer_Tick;
 
             _currentTimeLabel = currentTimeLabel;
             _leftTimeLabel = leftTimeLabel;
+
+            _progressBar = progressBar;
+
             UpdateTimeLabel();
             
         }
@@ -69,11 +73,11 @@ namespace SoundBuddy.Services
             UpdateTimeLabel();
         }
 
-        private void Timer_Tick(object sender, EventArgs e)
+        /*private void Timer_Tick(object sender, EventArgs e)
         {
             if (_wavePlayer != null && _audioFile != null)
                 UpdateTimeLabel();
-        }
+        }*/
 
         private void UpdateTimeLabel()
         {
@@ -106,6 +110,24 @@ namespace SoundBuddy.Services
             }
 
             _currentTimeLabel.Content = "00:00";
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            if (_wavePlayer != null && _audioFile != null)
+            {
+                UpdateTimeLabel();
+                UpdateProgressBar();
+            }
+        }
+
+        private void UpdateProgressBar()
+        {
+            if (_audioFile != null)
+            {
+                double progress = _audioFile.Position * 100 / _audioFile.Length;
+                _progressBar.Value = progress;
+            }
         }
     }
 

@@ -1,20 +1,25 @@
 ﻿using System.Collections.ObjectModel;
+using SoundBuddy.ViewModels;
 
 namespace SoundBuddy.Models
 {
-    internal class Playlist
+    public class Playlist
     {
         private int _id;
         private string _name;
-        private TagLib.IPicture _cover;
+        private string? _description;
+        private TagLib.IPicture? _cover;
 
-        public ObservableCollection<Song> songs;
+        private ObservableCollection<Song> _songs;
 
-        public Playlist(int id, string name, TagLib.IPicture cover)
+        public Playlist(int id, string name, string? description, TagLib.IPicture? cover, ObservableCollection<Song> songs)
         {
             _id = id;
             _name = name;
+            _description = description;
             _cover = cover;
+
+            _songs = songs;
         }
 
         public int Id
@@ -35,6 +40,14 @@ namespace SoundBuddy.Models
             }
         }
 
+        public string Description
+        {
+            get => _description;
+            set
+            {
+                _description = value;
+            }
+        }
         public TagLib.IPicture Cover
         {
             get => _cover;

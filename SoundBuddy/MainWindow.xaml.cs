@@ -1,19 +1,17 @@
 ﻿using SoundBuddy.Models;
 using SoundBuddy.Services;
 using SoundBuddy.ViewModels;
-using System.Collections.ObjectModel;
+using SoundBuddy.Views;
 using System.Windows;
-using System.Windows.Input;
-using System.Windows.Media;
+using System.Windows.Controls;
 
 namespace SoundBuddy
 {
     public partial class MainWindow : Window
     {
-        public ObservableCollection<Song> AllSongs = SongManagement.GetAllSongs();
-
         private readonly AudioPlayer _audioPlayer;
         private readonly DisplayController _displayController;
+        private readonly PageController _pageController;
 
         public MainWindow()
         {
@@ -21,34 +19,25 @@ namespace SoundBuddy
 
             DataContext = this;
 
-            songListView.ItemsSource = AllSongs;
-
-            _audioPlayer = new AudioPlayer(LbCurrentTime, LbLeftTime);
+            _audioPlayer = new AudioPlayer(LbCurrentTime, LbLeftTime, progressBar);
             _displayController = new DisplayController(this);
+            _pageController = new PageController(this);
         }
 
         private void BtnAddSongs_OnClick(object sender, RoutedEventArgs e)
         {
+            _pageController.SwitchToLocalFilesPage();
+
             var paths = FileController.SelectSongFiles();
 
             if (paths == null) 
                 return;
 
-            foreach (var path in paths)
-            {
-                var newSong = SongManagement.AddSongToDatabase(path);
-                if (newSong != null)
-                    AllSongs.Add(newSong);
-            }
+            _pageController.AddSongsToList(paths);
         }
 
-        private void SongListView_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        public void PlaySong(Song song)
         {
-            if (songListView.SelectedItem == null) 
-                return;
-
-            var song = (Song)songListView.SelectedItem;
-
             _audioPlayer.Load(song.Path);
             _audioPlayer.Play();
 
@@ -83,6 +72,21 @@ namespace SoundBuddy
         private void BtnClose_OnClick(object sender, RoutedEventArgs e)
         {
             _displayController.CloseWindow();
+        }
+
+        private void BtnPlaylists_OnClick(object sender, RoutedEventArgs e)
+        {
+            _pageController.SwitchToPlaylistListPage();
+        }
+
+        private void BtnLocalFiles_OnClick(object sender, RoutedEventArgs e)
+        {
+            _pageController.SwitchToLocalFilesPage();
+        }
+
+        private void BtnSettings_OnClick(object sender, RoutedEventArgs e)
+        {
+            _pageController.SwitchToSettingsPage();
         }
     }
 }

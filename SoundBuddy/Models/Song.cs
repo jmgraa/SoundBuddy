@@ -5,9 +5,9 @@ namespace SoundBuddy.Models
 {
     public class Song : INotifyPropertyChanged
     {
-        private int _id;
+        private readonly int _id;
         private string? _title;
-        private string[]? _artists;
+        private readonly string[]? _artists;
         private string? _album;
         private string? _genre;
         private uint _year;
@@ -32,6 +32,8 @@ namespace SoundBuddy.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public int Id => _id;
 
         public string Title
         {
