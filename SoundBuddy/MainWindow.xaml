@@ -6,73 +6,17 @@
         xmlns:local="clr-namespace:SoundBuddy"
         mc:Ignorable="d" WindowStyle="None"
         Title="MainWindow" Height="600" Width="800">
+
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="0" CornerRadius="0" CaptionHeight="0"/>
     </WindowChrome.WindowChrome>
+
     <Window.Resources>
-        <Style TargetType="GridViewColumnHeader">
-            <Setter Property="Foreground" Value="#C3C3C3"/>
-            <Setter Property="Background" Value="#282828"/>
-            <Setter Property="BorderBrush" Value="Transparent"></Setter>
-        </Style>
-
-        <Style TargetType="Button" x:Key="WindowControlButton">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}">
-                            <ContentPresenter x:Name="PART_Content"
-                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              TextElement.Foreground="{TemplateBinding Foreground}"></ContentPresenter>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="Foreground" Value="#CACACA"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Width" Value="40"/>
-
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="Red"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style TargetType="Button" x:Key="ControlButton">
-            <Setter Property="FontSize" Value="30"/>
-            <Setter Property="Foreground" Value="#F5EADE"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="FontFamily" Value="{StaticResource FontAwesome}"/>
-            <Setter Property="Margin" Value="10, 0, 10, 0"/>
-        </Style>
-
-        <Style TargetType="Button" x:Key="SecondaryControlButton"
-               BasedOn="{StaticResource ControlButton}">
-            <Setter Property="FontSize" Value="15"/>
-            <Setter Property="Opacity" Value="0.4" />
-        </Style>
-
-        <Style TargetType="Label" x:Key="SongInfo">
-            <Setter Property="Foreground" Value="#CACACA"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        </Style>
-
-        <Style TargetType="Button" x:Key="TopChoiceButton">
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="FontSize" Value="15"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Margin" Value="5, 0, 5, 0"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/MainWindowStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
 
     <Grid Background="Black">
@@ -130,7 +74,7 @@
                     </Grid>
 
                     <Grid Grid.Row="3">
-                        <Label Content="VISUALIZER" FontSize="15" Foreground="White"/>
+                        <!-- VISUALIZER -->
                     </Grid>
                 </Grid>
             </Grid>
@@ -175,7 +119,11 @@
                                 </Grid>
 
                                 <Grid Grid.Column="1" HorizontalAlignment="Right">
-                                    <Button Name="BtnAddSongs" Content="Add songs" Style="{StaticResource TopChoiceButton}" Click="BtnAddSongs_OnClick"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Name="BtnCreatePlaylist" Content="Create playlist" Style="{StaticResource TopChoiceButton}" Click="BtnCreatePlaylist_OnClick"/>
+                                        <Button Name="BtnAddSongs" Content="Add songs" Style="{StaticResource TopChoiceButton}" Click="BtnAddSongs_OnClick"/>
+                                    </StackPanel>
+
                                 </Grid>
                             </Grid>
 
@@ -201,7 +149,7 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <Button Content="&#xf048;" Style="{StaticResource ControlButton}"/>
                         <Button Name="BtnStop" Content="&#xf04d;" Style="{StaticResource ControlButton}" Click="BtnStop_OnClick"/>
-                        <Button Name="BtnPlay" Content="&#xf144;" FontSize="40" Style="{StaticResource ControlButton}" Click="BtnPlay_OnClick"/>
+                        <Button Name="BtnPlay" Content="&#xf144;" FontSize="35" Style="{StaticResource ControlButton}" Click="BtnPlay_OnClick"/>
                         <Button Name="BtnPause" Content="&#xf04c;" Style="{StaticResource ControlButton}" Click="BtnPause_OnClick"/>
                         <Button Content="&#xf051;" Style="{StaticResource ControlButton}"/>
                     </StackPanel>
@@ -221,16 +169,16 @@
                 <Grid Grid.Row="0">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Label Name="LbCurrentTime" Content="0:00" Foreground="White"/>
-                        <ProgressBar x:Name="progressBar" Width="300" Height="20" Margin="10"/>
+                        <ProgressBar x:Name="ProgressBar" Width="300" Height="20" Margin="10"/>
                         <Label Name="LbLeftTime" Content="0:00" Foreground="White"/>
                     </StackPanel>
                 </Grid>
 
                 <Grid Grid.Row="1">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
-                        <Button Name="BtnMute" Content="&#xf363;" Style="{StaticResource ControlButton}"/>
-                        <Label Content="VOLUME" Foreground="White"/>
-                        <Label Content="VOLUME BAR" Foreground="White"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0, 0, 0, 10" Grid.ColumnSpan="2">
+                        <Button Name="BtnMute" Content="&#xf027;" Style="{StaticResource ControlButton}" Click="BtnMute_OnClick"/>
+                        <Slider x:Name="VolumeSlider" Width="100" Height="20" 
+                                Minimum="0" Maximum="1" Value="0.5" SmallChange="0.01" LargeChange="0.1"/>
                     </StackPanel>
                 </Grid>
             </Grid>

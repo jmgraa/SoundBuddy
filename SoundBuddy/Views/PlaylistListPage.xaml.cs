@@ -1,22 +1,29 @@
-﻿using SoundBuddy.ViewModels;
+﻿using SoundBuddy.Interfaces;
+using SoundBuddy.ViewModels;
 using SoundBuddy.Views.UserControls;
 using System.Collections.ObjectModel;
-using System.Windows.Controls;
 
 namespace SoundBuddy.Views
 {
-    public partial class PlaylistListPage : Page
+    public partial class PlaylistListPage : IRefreshable
     {
-        private readonly PageController _pageController;
-        public ObservableCollection<PlaylistUserControl> AllPlaylists = SongManagement.getUserControls();
+        private readonly MainWindow _window;
 
-        public PlaylistListPage(PageController pageController)
+        public ObservableCollection<PlaylistUserControl> AllPlaylists;
+
+        public PlaylistListPage(MainWindow window, ObservableCollection<PlaylistUserControl> allPlaylist)
         {
             InitializeComponent();
 
-            _pageController = pageController;
+            _window = window;
 
+            AllPlaylists = allPlaylist;
             PlaylistList.ItemsSource = AllPlaylists;
+        }
+
+        public void RefreshContent()
+        {
+            AllPlaylists = _window.SoundyFacade.GetUserControls();
         }
     }
 }

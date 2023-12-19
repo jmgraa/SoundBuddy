@@ -1,60 +1,19 @@
 ﻿using System.Collections.ObjectModel;
-using SoundBuddy.ViewModels;
+using System.Windows.Media.Imaging;
 
 namespace SoundBuddy.Models
 {
-    public class Playlist
+    public class Playlist(
+        int id,
+        string name,
+        string? description,
+        BitmapImage? cover,
+        ObservableCollection<Song> songs)
     {
-        private int _id;
-        private string _name;
-        private string? _description;
-        private TagLib.IPicture? _cover;
-
-        private ObservableCollection<Song> _songs;
-
-        public Playlist(int id, string name, string? description, TagLib.IPicture? cover, ObservableCollection<Song> songs)
-        {
-            _id = id;
-            _name = name;
-            _description = description;
-            _cover = cover;
-
-            _songs = songs;
-        }
-
-        public int Id
-        {
-            get => _id;
-            set
-            {
-                _id = value;
-            }
-        }
-
-        public string Name
-        {
-            get => _name;
-            set
-            {
-                _name = value;
-            }
-        }
-
-        public string Description
-        {
-            get => _description;
-            set
-            {
-                _description = value;
-            }
-        }
-        public TagLib.IPicture Cover
-        {
-            get => _cover;
-            set
-            {
-                _cover = value;
-            }
-        }
+        public readonly int Id = id;
+        public string Name = name;
+        public string? Description = description;
+        public BitmapImage? Cover = cover;
+        public ObservableCollection<Song> Songs = songs;
     }
 }

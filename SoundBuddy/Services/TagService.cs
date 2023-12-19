@@ -1,4 +1,6 @@
 ﻿using SoundBuddy.Models;
+using System.IO;
+using System.Windows.Media.Imaging;
 
 namespace SoundBuddy.Services
 {
@@ -9,15 +11,19 @@ namespace SoundBuddy.Services
             using var file = TagLib.File.Create(path);
 
             var title = file.Tag.Title;
-            var artist = file.Tag.Artists;
+            var artist = file.Tag.Performers;
             var album = file.Tag.Album;
             var genres = file.Tag.Genres;
             var year = file.Tag.Year;
-
-            TagLib.IPicture? picture = null;
+            BitmapImage? picture = null;
 
             if (file.Tag.Pictures.Length > 0)
-                picture = file.Tag.Pictures[0];
+            {
+                picture = new BitmapImage();
+                picture.BeginInit();
+                picture.StreamSource = new MemoryStream(file.Tag.Pictures[0].Data.Data);
+                picture.EndInit();
+            }
 
             var genre = genres.Length > 0 ? genres[0] : null;
 

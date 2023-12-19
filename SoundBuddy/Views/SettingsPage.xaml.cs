@@ -5,13 +5,10 @@ namespace SoundBuddy.Views
 {
     public partial class SettingsPage : Page
     {
-        private readonly PageController _pageController;
 
-        public SettingsPage(PageController pageController)
+        public SettingsPage()
         {
             InitializeComponent();
-
-            _pageController = pageController;
         }
     }
 }

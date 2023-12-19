@@ -2,7 +2,7 @@
 
 namespace SoundBuddy.ViewModels
 {
-    internal class FileController()
+    internal static class FileController
     {
         public static string[]? SelectSongFiles()
         {

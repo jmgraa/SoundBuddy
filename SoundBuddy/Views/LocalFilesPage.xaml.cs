@@ -1,31 +1,38 @@
 ﻿using SoundBuddy.Models;
 using SoundBuddy.ViewModels;
 using System.Collections.ObjectModel;
-using System.Windows.Controls;
 using System.Windows.Input;
+using SoundBuddy.Interfaces;
 
 namespace SoundBuddy.Views
 {
-    public partial class LocalFilesPage : Page
+    public partial class LocalFilesPage : IRefreshable
     {
-        public ObservableCollection<Song> AllSongs = SongManagement.GetAllSongs();
-        private readonly PageController _pageController;
+        private readonly MainWindow _window;
 
-        public LocalFilesPage(PageController pageController)
+        public ObservableCollection<Song> AllSongs = SongManagement.GetAllSongs();
+
+        public LocalFilesPage(MainWindow window)
         {
             InitializeComponent();
 
-            songListView.ItemsSource = AllSongs;
-            _pageController = pageController;
+            _window = window;
+
+            SongListViewUrCl.songListView.ItemsSource = AllSongs;
         }
         
-
         private void SongListView_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (songListView.SelectedItem == null)
+            if (SongListViewUrCl.songListView.SelectedItem == null)
                 return;
 
-            _pageController.PlaySong((Song)songListView.SelectedItem);
+            _window.SoundyFacade.ChangeCurrentQueue(AllSongs);
+            _window.SoundyFacade.PlaySong((Song)SongListViewUrCl.songListView.SelectedItem);
+        }
+
+        public void RefreshContent()
+        {
+            AllSongs = SongManagement.GetAllSongs();
         }
     }
 }

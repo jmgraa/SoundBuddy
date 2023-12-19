@@ -1,14 +1,11 @@
 ﻿using SoundBuddy.Models;
 using SoundBuddy.Services;
-using SoundBuddy.Views.UserControls;
 using System.Collections.ObjectModel;
 
 namespace SoundBuddy.ViewModels
 {
-    internal static class SongManagement
+    internal class SongManagement
     {
-        private static ObservableCollection<Song> _allSongs = GetAllSongs();
-        private static ObservableCollection<Playlist> _allPlaylists = GetAllPlaylists();
         public static ObservableCollection<Song> GetAllSongs()
         {
             var pathsAndIds = DbHelper.GetAllPathsAndIds();
@@ -27,18 +24,6 @@ namespace SoundBuddy.ViewModels
             return id != null ? TagService.GetSongData(path, (int)id) : null;
         }
 
-        public static ObservableCollection<PlaylistUserControl> getUserControls()
-        {
-            var controls = new ObservableCollection<PlaylistUserControl>();
-
-            foreach (var playlist in _allPlaylists)
-            {
-                controls.Add(new PlaylistUserControl(playlist));
-            }
-
-            return controls;
-        }
-
         public static ObservableCollection<Playlist> GetAllPlaylists()
         {
             var playlists = new ObservableCollection<Playlist>();
@@ -49,7 +34,7 @@ namespace SoundBuddy.ViewModels
             {
                 var songsOnPlaylist = GetSongsOnPlaylist(data.Item1);
                 // TODO fix image cast
-                playlists.Add(new Playlist(data.Item1, data.Item2, data.Item3, null, songsOnPlaylist));
+                playlists.Add(new Playlist(data.Item1, data.Item2, data.Item3, data.Item4, songsOnPlaylist));
             }
 
             return playlists;
@@ -57,10 +42,11 @@ namespace SoundBuddy.ViewModels
 
         public static ObservableCollection<Song> GetSongsOnPlaylist(int id)
         {
+            var allSongs = GetAllSongs();
             var songsOnPlaylist = new ObservableCollection<Song>();
             var songsOnPlaylistIds = DbHelper.GetSongsOnPlaylistIds(id);
 
-            foreach (var song in _allSongs)
+            foreach (var song in allSongs)
             {
                 if (songsOnPlaylistIds.Contains(song.Id))
                     songsOnPlaylist.Add(song);

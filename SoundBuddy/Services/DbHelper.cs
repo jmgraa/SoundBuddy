@@ -1,7 +1,6 @@
-﻿using System.Collections.ObjectModel;
-using System.Data;
+﻿using System.Data;
 using System.Data.SQLite;
-using SoundBuddy.Views.UserControls;
+using System.Windows.Media.Imaging;
 
 namespace SoundBuddy.Services
 {
@@ -69,13 +68,16 @@ namespace SoundBuddy.Services
             return pathsAndIds;
         }
 
-        public static List<(int, string?, string?, object?)> GetAllPlaylists()
+        public static List<(int, string, string?, BitmapImage?)> GetAllPlaylists()
         {
-            var playlistData = new List<(int, string?, string?, object?)>();
+            var playlistData = new List<(int, string, string?, BitmapImage?)>();
             var queryResult = ExecuteQuery("SELECT Id, Name, Description, Picture FROM Playlists");
 
             foreach (DataRow row in queryResult.Rows)
-                playlistData.Add((int.Parse(row["Id"].ToString()), row["Description"].ToString(), row["Description"].ToString(), row["Picture"]));
+            {
+                var cover = row["Picture"] != DBNull.Value ? Tools.LoadImageFromBlob((byte[])row["Picture"]) : null;
+                playlistData.Add((int.Parse(row["Id"].ToString()), row["Description"].ToString(), row["Description"].ToString(), cover));
+            }
 
             return playlistData;
         }
