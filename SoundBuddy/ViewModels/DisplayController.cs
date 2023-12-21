@@ -3,6 +3,7 @@ using System.Windows.Media.Imaging;
 using NAudio.Wave;
 using SoundBuddy.Models;
 using SoundBuddy.Services;
+using SoundBuddy.Views.PopUps;
 using TagLib.Mpeg;
 
 namespace SoundBuddy.ViewModels
@@ -12,6 +13,7 @@ namespace SoundBuddy.ViewModels
         private readonly MainWindow _window;
 
         private readonly BitmapImage _soundBuddyLogo;
+        public readonly BitmapImage InsertImage;
 
         private double _previousVolume = 1;
 
@@ -19,11 +21,8 @@ namespace SoundBuddy.ViewModels
         {
             _window = window;
 
-            _soundBuddyLogo = new BitmapImage();
-            _soundBuddyLogo.BeginInit();
-            // TODO fix path
-            _soundBuddyLogo.UriSource = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}SoundBuddy.png", UriKind.RelativeOrAbsolute);
-            _soundBuddyLogo.EndInit();
+            _soundBuddyLogo = Tools.LoadImageFromPath("SoundBuddy");
+            InsertImage = Tools.LoadImageFromPath("InsertImage");
 
             _window.CurrentCover.Source = _soundBuddyLogo;
             _window.CurrentTitle.Content = "Welcome to SoundBuddy";
@@ -85,6 +84,24 @@ namespace SoundBuddy.ViewModels
                 _previousVolume = _window.VolumeSlider.Value;
 
             }
+        }
+
+        public void ChangeRandomModeButton(bool randomMode)
+        {
+            _window.BtnRandom.Opacity = randomMode ? 1 : 0.4;
+        }
+
+        public Playlist? CreatePlaylist()
+        {
+            var createPlaylistWindow = new CreatePlaylistPopUp();
+
+            createPlaylistWindow.ReturnValueEvent += createPlaylistWindow_ReturnValueEvent;
+
+        }
+
+        private void createPlaylistWindow_ReturnValueEvent((string, string, BitmapImage)? data)
+        {
+           
         }
     }
 }

@@ -5,17 +5,28 @@ namespace SoundBuddy.ViewModels
 {
     public class QueueController(MainWindow window)
     {
+        private ObservableCollection<Song> _playedSongs = [];
         private ObservableCollection<Song> _wholeQueue = SongManagement.GetAllSongs();
         private ObservableCollection<Song> _currentQueue = SongManagement.GetAllSongs();
+
+        private Song? _currentSong = null;
+
         private int _songIndex;
         private bool _randomSong;
 
         public Song? GetNextSongToPlay()
         {
-            if (_currentQueue.Count != 0)
-                return _randomSong ? GetRandomSong() : GetNextSong();
+            if (_currentQueue.Count > 0)
+            {
+                if (_currentSong != null && (_playedSongs.Count == 0 || _playedSongs.Last() != _currentSong))
+                    _playedSongs.Add(_currentSong);
+
+                _currentSong = _randomSong ? GetRandomSong() : GetNextSong();
+                return _currentSong;
+            }
 
             window.SoundyFacade.Stop();
+            _currentSong = null;
             return null;
         }
 
@@ -47,11 +58,29 @@ namespace SoundBuddy.ViewModels
         {
             _wholeQueue = newQueue;
             _currentQueue = new ObservableCollection<Song>(_wholeQueue);
+            _playedSongs.Clear();
         }
 
-        public void ChangeRandomMode(bool randomMode)
+        public bool ChangeRandomMode()
         {
-            _randomSong = randomMode;
+            _randomSong = !_randomSong;
+            return _randomSong;
+        }
+
+        public void SetCurrentSongInQueue(Song song)
+        { 
+            _currentSong = song;
+        }
+
+        public Song? GetPreviousSong()
+        {
+            if (_playedSongs.Count == 0) 
+                return null;
+
+            var lastSong = _playedSongs.Last();
+            _playedSongs.RemoveAt(_playedSongs.Count - 1);
+
+            return lastSong;
         }
     }
 }

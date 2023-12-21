@@ -87,5 +87,20 @@ namespace SoundBuddy
         {
             
         }
+
+        private void BtnPrevious_OnClick(object sender, RoutedEventArgs e)
+        {
+            SoundyFacade.Restart();
+        }
+
+        private void BtnNext_OnClick(object sender, RoutedEventArgs e)
+        {
+            SoundyFacade.PlaySong(SoundyFacade.GetNextSongToPlay());
+        }
+
+        private void BtnRandom_OnClick(object sender, RoutedEventArgs e)
+        {
+            SoundyFacade.ChangeRandomMode();
+        }
     }
 }

@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using SoundBuddy.Models;
 
 namespace SoundBuddy.Services
 {
@@ -13,6 +14,7 @@ namespace SoundBuddy.Services
         private WaveOutEvent? _wavePlayer;
         private AudioFileReader? _audioFile;
         private readonly DispatcherTimer _timer = new();
+
         private readonly Slider _volumeSlider;
 
         public AudioPlayer(MainWindow window)
@@ -26,16 +28,20 @@ namespace SoundBuddy.Services
             _volumeSlider.ValueChanged += VolumeSlider_ValueChanged;
         }
 
-        public void Load(string filePath)
+        public void Load(Song song)
         {
-            if (File.Exists(filePath) && Path.GetExtension(filePath).ToLower() == ".mp3")
+            if (File.Exists(song.Path) && Path.GetExtension(song.Path).ToLower() == ".mp3")
             {
                 Dispose();
 
-                _audioFile = new AudioFileReader(filePath);
+                _audioFile = new AudioFileReader(song.Path);
                 _wavePlayer = new WaveOutEvent();
                 _wavePlayer.Init(_audioFile);
+
+                _wavePlayer.PlaybackStopped += WavePlayer_PlaybackStopped;
+
                 _window.SoundyFacade.UpdateTimeLabel(_audioFile);
+                _window.SoundyFacade.SetCurrentSongInQueue(song);
             }
             else
                 MessageBox.Show("Error! Cannot load");
@@ -64,11 +70,23 @@ namespace SoundBuddy.Services
             if (_wavePlayer == null || _audioFile == null) 
                 return;
 
+            _wavePlayer.PlaybackStopped -= WavePlayer_PlaybackStopped;
+
             _wavePlayer.Stop();
             _timer.Stop();
             _audioFile.Position = 0;
 
             _window.SoundyFacade.UpdateTimeLabel(_audioFile);
+        }
+
+        public void Restart()
+        {
+            if (_wavePlayer == null || _audioFile == null)
+                return;
+
+            Stop();
+            _audioFile.Position = 0;
+            Play();
         }
 
         public void Dispose()
@@ -103,6 +121,21 @@ namespace SoundBuddy.Services
         {
             if (_wavePlayer != null)
                 _wavePlayer.Volume = (float)_volumeSlider.Value;
+        }
+
+        private void WavePlayer_PlaybackStopped(object sender, StoppedEventArgs e)
+        {
+            var nextSong = _window.SoundyFacade.GetNextSongToPlay();
+
+            if (nextSong != null)
+            {
+                _window.SoundyFacade.PlaySong(nextSong);
+            }
+            else
+            {
+                MessageBox.Show("End of playlist / queue!");
+                Dispose();
+            }
         }
     }
 }

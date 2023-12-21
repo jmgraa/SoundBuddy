@@ -1,9 +1,8 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows.Controls;
-using SoundBuddy.Interfaces;
-using SoundBuddy.Models;
+﻿using SoundBuddy.Models;
 using SoundBuddy.Views;
 using SoundBuddy.Views.UserControls;
+using System.Collections.ObjectModel;
+using System.Windows.Controls;
 
 namespace SoundBuddy.ViewModels
 {
@@ -12,18 +11,19 @@ namespace SoundBuddy.ViewModels
         private readonly MainWindow _window;
 
         private readonly LocalFilesPage _localFilesPage;
-        private readonly SettingsPage _settingsPage;
-        private SelectedPlaylistPage? _selectedPlaylistPage;
         private readonly PlaylistListPage _playlistListPage;
+        private readonly SettingsPage _settingsPage;
+
+        private SelectedPlaylistPage? _selectedPlaylistPage;
 
         public PageController(MainWindow window)
         {
             _window = window;
 
             _localFilesPage = new LocalFilesPage(_window);
+            _playlistListPage = new PlaylistListPage(_window, GetUserControls());
             _settingsPage = new SettingsPage();
             _selectedPlaylistPage = null;
-            _playlistListPage = new PlaylistListPage(_window, getUserControls());
 
             ChangePageInFrame(_localFilesPage);
         }
@@ -44,9 +44,11 @@ namespace SoundBuddy.ViewModels
                 if (newSong != null)
                     _localFilesPage.AllSongs.Add(newSong);
             }
+
+            SwitchToLocalFilesPage();
         }
 
-        public ObservableCollection<PlaylistUserControl> getUserControls()
+        public ObservableCollection<PlaylistUserControl> GetUserControls()
         {
             var controls = new ObservableCollection<PlaylistUserControl>();
 
@@ -56,11 +58,6 @@ namespace SoundBuddy.ViewModels
             }
 
             return controls;
-        }
-
-        public void PlaySong(Song song)
-        {
-            _window.PlaySong(song);
         }
 
         public void SwitchToLocalFilesPage()
@@ -76,7 +73,8 @@ namespace SoundBuddy.ViewModels
 
         public void SwitchToSelectedPlaylistPage()
         {
-            ChangePageInFrame(_selectedPlaylistPage);
+            if (_selectedPlaylistPage != null)
+                ChangePageInFrame(_selectedPlaylistPage);
         }
 
         public void SwitchToSettingsPage()

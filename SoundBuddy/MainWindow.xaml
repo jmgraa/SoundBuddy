@@ -147,15 +147,15 @@
             <Grid Grid.Column="0">
                 <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button Content="&#xf048;" Style="{StaticResource ControlButton}"/>
+                        <Button Name="BtnPrevious" Content="&#xf048;" Style="{StaticResource ControlButton}" Click="BtnPrevious_OnClick"/>
                         <Button Name="BtnStop" Content="&#xf04d;" Style="{StaticResource ControlButton}" Click="BtnStop_OnClick"/>
                         <Button Name="BtnPlay" Content="&#xf144;" FontSize="35" Style="{StaticResource ControlButton}" Click="BtnPlay_OnClick"/>
                         <Button Name="BtnPause" Content="&#xf04c;" Style="{StaticResource ControlButton}" Click="BtnPause_OnClick"/>
-                        <Button Content="&#xf051;" Style="{StaticResource ControlButton}"/>
+                        <Button Name="BtnNext" Content="&#xf051;" Style="{StaticResource ControlButton}" Click="BtnNext_OnClick"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <Button Content="&#xf363;" Style="{StaticResource SecondaryControlButton}"/>
-                        <Button Content="&#xf074;" Style="{StaticResource SecondaryControlButton}"/>
+                        <Button Name="BtnRandom" Content="&#xf074;" Style="{StaticResource SecondaryControlButton}" Click="BtnRandom_OnClick"/>
                     </StackPanel>
                 </StackPanel>
             </Grid>

@@ -41,14 +41,14 @@ namespace SoundBuddy.ViewModels
 
         public ObservableCollection<PlaylistUserControl> GetUserControls()
         {
-            return _pageController.getUserControls();
+            return _pageController.GetUserControls();
         }
         // END OF PAGE CONTROLLER
 
         // AUDIO PLAYER
         public void PlaySong(Song song)
         {
-            _audioPlayer.Load(song.Path);
+            _audioPlayer.Load(song);
             _audioPlayer.Play();
 
             _displayController.ShowCurrentSongData(song);
@@ -67,6 +67,11 @@ namespace SoundBuddy.ViewModels
         public void Stop()
         {
             _audioPlayer.Stop();
+        }
+
+        public void Restart()
+        {
+            _audioPlayer.Restart();
         }
         // END OF AUDIO PLAYER
 
@@ -100,6 +105,11 @@ namespace SoundBuddy.ViewModels
         {
             _displayController.UpdateProgressBar(audioFile);
         }
+
+        public void CreatePlaylist()
+        {
+
+        }
         // END OF DISPLAY CONTROLLER
 
         // FILE CONTROLLER
@@ -118,6 +128,16 @@ namespace SoundBuddy.ViewModels
         public void ChangeCurrentQueue(ObservableCollection<Song> newQueue)
         {
             _queueController.ChangeCurrentQueue(newQueue);
+        }
+
+        public void SetCurrentSongInQueue(Song song)
+        {
+            _queueController.SetCurrentSongInQueue(song);
+        }
+
+        public void ChangeRandomMode()
+        {
+            _displayController.ChangeRandomModeButton(_queueController.ChangeRandomMode());
         }
         // END OF QUEUE CONTROLLER
     }

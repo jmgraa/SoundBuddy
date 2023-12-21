@@ -22,9 +22,19 @@ namespace SoundBuddy
             }
             catch (Exception ex)
             {
-                // Obsłuż błędy ładowania obrazu
                 Console.WriteLine($"Błąd ładowania obrazu: {ex.Message}");
             }
+
+            return bitmapImage;
+        }
+
+        // TODO fix path
+        public static BitmapImage LoadImageFromPath(string path)
+        {
+            var bitmapImage = new BitmapImage();
+            bitmapImage.BeginInit();
+            bitmapImage.UriSource = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}{path}.png", UriKind.RelativeOrAbsolute);
+            bitmapImage.EndInit();
 
             return bitmapImage;
         }
