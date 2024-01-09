@@ -24,11 +24,6 @@ namespace SoundBuddy.ViewModels
             _pageController.SwitchToPlaylistListPage();
         }
 
-        public void SwitchToSettingsPage()
-        {
-            _pageController.SwitchToSettingsPage();
-        }
-
         public void AddSongsToList(string[] paths)
         {
             _pageController.AddSongsToList(paths);

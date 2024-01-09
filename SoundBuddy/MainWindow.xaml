@@ -1,9 +1,8 @@
 ﻿<Window x:Class="SoundBuddy.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SoundBuddy"
         mc:Ignorable="d" WindowStyle="None"
         Title="MainWindow" Height="600" Width="800">
 
@@ -39,25 +38,11 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="210"/>
-                        <RowDefinition Height="170"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
 
                     <Grid Grid.Row="0">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-
-                            <Grid Grid.Column="0">
-                                <Label Content="SoundBuddy" FontSize="15" Foreground="White"/>
-                            </Grid>
-                            <Grid Grid.Column="1" HorizontalAlignment="Right">
-                                <Button Name="BtnSettings" Content="Settings" Style="{StaticResource TopChoiceButton}" Click="BtnSettings_OnClick"/>
-                            </Grid>
-                        </Grid>
-
+                        <Label Content="SoundBuddy" FontSize="15" Foreground="White"/>
                     </Grid>
 
                     <Grid Grid.Row="1">
@@ -71,10 +56,6 @@
                             <Label Name="CurrentAlbum" Content="Album" FontSize="10" Style="{StaticResource SongInfo}"/>
                             <Label Name="CurrentOtherData" Content="Data" FontSize="10" Style="{StaticResource SongInfo}"/>
                         </StackPanel>
-                    </Grid>
-
-                    <Grid Grid.Row="3">
-                        <!-- VISUALIZER -->
                     </Grid>
                 </Grid>
             </Grid>

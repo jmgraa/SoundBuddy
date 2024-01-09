@@ -12,7 +12,6 @@ namespace SoundBuddy.ViewModels
 
         private readonly LocalFilesPage _localFilesPage;
         private readonly PlaylistListPage _playlistListPage;
-        private readonly SettingsPage _settingsPage;
 
         private SelectedPlaylistPage? _selectedPlaylistPage;
 
@@ -22,7 +21,6 @@ namespace SoundBuddy.ViewModels
 
             _localFilesPage = new LocalFilesPage(_window);
             _playlistListPage = new PlaylistListPage(_window, GetUserControls());
-            _settingsPage = new SettingsPage();
             _selectedPlaylistPage = null;
 
             ChangePageInFrame(_localFilesPage);
@@ -75,11 +73,6 @@ namespace SoundBuddy.ViewModels
         {
             if (_selectedPlaylistPage != null)
                 ChangePageInFrame(_selectedPlaylistPage);
-        }
-
-        public void SwitchToSettingsPage()
-        {
-            ChangePageInFrame(_settingsPage);
         }
 
         private void ChangePageInFrame(Page page)

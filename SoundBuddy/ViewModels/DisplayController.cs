@@ -101,7 +101,7 @@ namespace SoundBuddy.ViewModels
 
         private void createPlaylistWindow_ReturnValueEvent((string, string, BitmapImage)? data)
         {
-           
+            
         }
     }
 }

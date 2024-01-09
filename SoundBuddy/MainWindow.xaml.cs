@@ -73,11 +73,6 @@ namespace SoundBuddy
             SoundyFacade.SwitchToLocalFilesPage();
         }
 
-        private void BtnSettings_OnClick(object sender, RoutedEventArgs e)
-        {
-            SoundyFacade.SwitchToSettingsPage();
-        }
-
         private void BtnCreatePlaylist_OnClick(object sender, RoutedEventArgs e)
         {
             SoundyFacade.SwitchToPlaylistListPage();
