@@ -35,11 +35,11 @@
                         </Style>
                     </GridView.ColumnHeaderContainerStyle>
 
-                    <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}"/>
-                    <GridViewColumn Header="Artists" DisplayMemberBinding="{Binding Artists}"/>
-                    <GridViewColumn Header="Album" DisplayMemberBinding="{Binding Album}"/>
-                    <GridViewColumn Header="Genre" DisplayMemberBinding="{Binding Genre}"/>
-                    <GridViewColumn Header="Year" DisplayMemberBinding="{Binding Year}"/>
+                    <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}" Width="200"/>
+                    <GridViewColumn Header="Artists" DisplayMemberBinding="{Binding Artists}" Width="150"/>
+                    <GridViewColumn Header="Album" DisplayMemberBinding="{Binding Album}" Width="150"/>
+                    <GridViewColumn Header="Genre" DisplayMemberBinding="{Binding Genre}" Width="150"/>
+                    <GridViewColumn Header="Year" DisplayMemberBinding="{Binding Year}" Width="50"/>
                 </GridView>
             </ListView.View>
         </ListView>

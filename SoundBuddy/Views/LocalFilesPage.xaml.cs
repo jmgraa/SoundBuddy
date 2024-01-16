@@ -2,11 +2,10 @@
 using SoundBuddy.ViewModels;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using SoundBuddy.Interfaces;
 
 namespace SoundBuddy.Views
 {
-    public partial class LocalFilesPage : IRefreshable
+    public partial class LocalFilesPage
     {
         private readonly MainWindow _window;
 
@@ -26,13 +25,8 @@ namespace SoundBuddy.Views
             if (SongListViewUrCl.songListView.SelectedItem == null)
                 return;
 
-            _window.SoundyFacade.ChangeCurrentQueue(AllSongs);
             _window.SoundyFacade.PlaySong((Song)SongListViewUrCl.songListView.SelectedItem);
-        }
-
-        public void RefreshContent()
-        {
-            AllSongs = SongManagement.GetAllSongs();
+            _window.SoundyFacade.ChangeCurrentQueue(AllSongs);
         }
     }
 }

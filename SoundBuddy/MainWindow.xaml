@@ -3,8 +3,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" WindowStyle="None"
-        Title="MainWindow" Height="600" Width="800">
+        mc:Ignorable="d" WindowStyle="None" MouseLeftButtonDown="MainWindow_OnMouseLeftButtonDown"
+        Title="SoundBuddy" Height="600" Width="1000">
 
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="0" CornerRadius="0" CaptionHeight="0"/>
@@ -26,7 +26,7 @@
 
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="250" />
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
@@ -142,28 +142,20 @@
             </Grid>
 
             <Grid Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-
-                <Grid Grid.Row="0">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, 0, 15, 0">
                         <Label Name="LbCurrentTime" Content="0:00" Foreground="White"/>
-                        <ProgressBar x:Name="ProgressBar" Width="300" Height="20" Margin="10"/>
+                        <ProgressBar x:Name="ProgressBar" Width="300" Height="20" Margin="10, 0, 10, 0" Style="{StaticResource CustomProgressBarStyle}"/>
                         <Label Name="LbLeftTime" Content="0:00" Foreground="White"/>
                     </StackPanel>
-                </Grid>
 
-                <Grid Grid.Row="1">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0, 0, 0, 10" Grid.ColumnSpan="2">
-                        <Button Name="BtnMute" Content="&#xf027;" Style="{StaticResource ControlButton}" Click="BtnMute_OnClick"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15, 0, 0, 0">
+                        <Button Name="BtnMute" Content="&#xf027;" Style="{StaticResource ControlButton}" Click="BtnMute_OnClick" Foreground="White"/>
                         <Slider x:Name="VolumeSlider" Width="100" Height="20" 
                                 Minimum="0" Maximum="1" Value="0.5" SmallChange="0.01" LargeChange="0.1"/>
                     </StackPanel>
-                </Grid>
+                </StackPanel>
             </Grid>
         </Grid>
-
     </Grid>
 </Window>

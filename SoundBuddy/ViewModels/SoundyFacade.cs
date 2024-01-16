@@ -38,6 +38,11 @@ namespace SoundBuddy.ViewModels
         {
             return _pageController.GetUserControls();
         }
+
+        public void RefreshPlaylistPage()
+        {
+            _pageController.RefreshPlaylistPage();
+        }
         // END OF PAGE CONTROLLER
 
         // AUDIO PLAYER
@@ -67,6 +72,12 @@ namespace SoundBuddy.ViewModels
         public void Restart()
         {
             _audioPlayer.Restart();
+        }
+
+        public void Mute()
+        {
+            _audioPlayer.Mute();
+            _displayController.Mute();
         }
         // END OF AUDIO PLAYER
 
@@ -103,7 +114,7 @@ namespace SoundBuddy.ViewModels
 
         public void CreatePlaylist()
         {
-
+            _displayController.CreatePlaylist();
         }
         // END OF DISPLAY CONTROLLER
 

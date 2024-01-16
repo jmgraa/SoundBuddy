@@ -56,8 +56,22 @@ namespace SoundBuddy.ViewModels
 
         public void ChangeCurrentQueue(ObservableCollection<Song> newQueue)
         {
+            var index = newQueue.IndexOf(_currentSong!);
+
+            var collection = new ObservableCollection<Song>();
+
+            for (var i = index + 1; i < newQueue.Count; i++)
+            {
+                collection.Add(newQueue[i]);
+            }
+
+            for (var i = 0; i < index; i++)
+            {
+                collection.Add(newQueue[i]);
+            }
+            
             _wholeQueue = newQueue;
-            _currentQueue = new ObservableCollection<Song>(_wholeQueue);
+            _currentQueue = collection;
             _playedSongs.Clear();
         }
 

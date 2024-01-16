@@ -1,7 +1,6 @@
 ﻿using System.Windows.Controls;
-using System.Windows.Input;
 using SoundBuddy.Models;
-using SoundBuddy.ViewModels;
+using System.Windows.Input;
 
 namespace SoundBuddy.Views.UserControls
 {
@@ -9,7 +8,7 @@ namespace SoundBuddy.Views.UserControls
     {
         private readonly MainWindow _window;
 
-        private Playlist _playlist;
+        private readonly Playlist _playlist;
 
         public PlaylistUserControl(Playlist playlist, MainWindow window)
         {
@@ -20,12 +19,18 @@ namespace SoundBuddy.Views.UserControls
 
             LbName.Content = playlist.Name;
             LbDescription.Content = playlist.Description;
-            ImgCover.Source = playlist.Cover;
+
+            ImgCover.Source = playlist.Cover ?? Tools.NoImage; 
         }
 
         private void PlaylistUserControl_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             _window.SoundyFacade.LoadSelectedPlaylistPage(_playlist);
+        }
+
+        private void FrameworkElement_OnContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            
         }
     }
 }

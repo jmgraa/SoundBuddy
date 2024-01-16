@@ -17,6 +17,8 @@ namespace SoundBuddy.Services
 
         private readonly Slider _volumeSlider;
 
+        private float _previousVolume = 0;
+
         public AudioPlayer(MainWindow window)
         {
             _window = window;
@@ -119,8 +121,16 @@ namespace SoundBuddy.Services
 
         private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (_wavePlayer != null)
-                _wavePlayer.Volume = (float)_volumeSlider.Value;
+            if (_wavePlayer == null) 
+                return;
+
+            if ((float)_volumeSlider.Value != 0)
+            {
+                _previousVolume = (float)_volumeSlider.Value;
+            }
+
+            _wavePlayer.Volume = (float)_volumeSlider.Value;
+
         }
 
         private void WavePlayer_PlaybackStopped(object sender, StoppedEventArgs e)
@@ -136,6 +146,11 @@ namespace SoundBuddy.Services
                 MessageBox.Show("End of playlist / queue!");
                 Dispose();
             }
+        }
+
+        public void Mute()
+        {
+            _volumeSlider.Value = _wavePlayer.Volume != 0 ? 0 : _previousVolume;
         }
     }
 }

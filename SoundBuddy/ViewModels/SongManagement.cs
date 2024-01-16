@@ -1,27 +1,40 @@
 ﻿using SoundBuddy.Models;
 using SoundBuddy.Services;
 using System.Collections.ObjectModel;
+using System.Windows.Media.Imaging;
 
 namespace SoundBuddy.ViewModels
 {
     internal class SongManagement
     {
+        public static Song? AddSongToDatabase(string path)
+        {
+            var id = DbHelper.AddSongToDatabase(path);
+
+            return id != null ? TagService.GetSongData(path, id.Value) : null;
+        }
+
+        public static Playlist? AddPlaylistToDatabase(string name, string? description, BitmapImage? cover)
+        {
+            var id = DbHelper.AddPlaylistToDatabase(name, description, cover);
+
+            return id != null ? new Playlist(id.Value, name, description, cover, GetSongsOnPlaylist(id.Value)) : null;
+        }
+
         public static ObservableCollection<Song> GetAllSongs()
         {
             var pathsAndIds = DbHelper.GetAllPathsAndIds();
             var songs = new ObservableCollection<Song>();
 
             foreach (var pathAndId in pathsAndIds)
-                songs.Add(TagService.GetSongData(pathAndId.Item2, pathAndId.Item1));
+            {
+                var song = TagService.GetSongData(pathAndId.Item2, pathAndId.Item1);
+
+                if (song != null)
+                    songs.Add(song);
+            }
 
             return songs;
-        }
-
-        public static Song? AddSongToDatabase(string path)
-        {
-            var id = DbHelper.AddSongToDatabase(path);
-
-            return id != null ? TagService.GetSongData(path, (int)id) : null;
         }
 
         public static ObservableCollection<Playlist> GetAllPlaylists()

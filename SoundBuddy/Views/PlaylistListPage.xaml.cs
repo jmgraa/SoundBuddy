@@ -24,6 +24,7 @@ namespace SoundBuddy.Views
         public void RefreshContent()
         {
             AllPlaylists = _window.SoundyFacade.GetUserControls();
+            PlaylistList.ItemsSource = AllPlaylists;
         }
     }
 }

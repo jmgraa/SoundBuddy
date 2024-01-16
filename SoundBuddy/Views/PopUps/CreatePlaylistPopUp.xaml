@@ -4,8 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SoundBuddy.Views.PopUps"
-        mc:Ignorable="d"
-        Title="CreatePlaylistPopUp" Height="300" Width="600">
+        mc:Ignorable="d" WindowStyle="None"
+        Title="CreatePlaylistPopUp" Height="300" Width="400">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="0" CornerRadius="0" CaptionHeight="0"/>
+    </WindowChrome.WindowChrome>
+
     <Grid Background="#191919">
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -14,13 +19,13 @@
 
         <Grid Grid.Row="0">
             <StackPanel Orientation="Horizontal">
-                <Image Name="ImgCover" Width="100" Height="100" Margin="10"/>
-                <TextBox Name="TxtBoxName" Text="Enter name here" FontSize="40" Width="470" Height="70" VerticalContentAlignment="Center" Foreground="White" Background="#282828"/>
+                <Image Name="ImgCover" Width="100" Height="100" Margin="10" MouseLeftButtonDown="ImgCover_OnMouseLeftButtonDown"/>
+                <TextBox Name="TxtBoxName" Text="Enter name here" FontSize="20" Width="228" Height="50" VerticalContentAlignment="Center" Foreground="White" Background="#282828"/>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1">
             <StackPanel Orientation="Vertical">
-                <TextBox Name="TxtBxDescription" Text="Description" FontSize="20" Width="470" Height="70" VerticalContentAlignment="Center" Foreground="White" Background="#282828"/>
+                <TextBox Name="TxtBxDescription" Text="Description" FontSize="10" Width="300" Height="50" VerticalContentAlignment="Center" Foreground="White" Background="#282828" TextWrapping="Wrap"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
                     <Button Name="BtnCreate" Content="Create" Width="100" Height="50" Margin="5, 5, 10, 5" Click="BtnCreate_OnClick" Foreground="White" Background="#282828" BorderBrush="#C87720" BorderThickness="2" FontSize="15"/>
                     <Button Name="BtnCancel" Content="Cancel" Width="100" Height="50" Margin="10, 5, 5, 5" Click="BtnCancel_OnClick" Foreground="White" Background="#282828" BorderBrush="#C87720" BorderThickness="2" FontSize="15"/>

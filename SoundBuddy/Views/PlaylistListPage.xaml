@@ -9,7 +9,9 @@
       Title="PlaylistListPage">
 
     <Grid>
-        <ItemsControl Name="PlaylistList">
-        </ItemsControl>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ItemsControl Name="PlaylistList"/>
+        </ScrollViewer>
+        
     </Grid>
 </Page>

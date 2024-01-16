@@ -60,7 +60,6 @@ namespace SoundBuddy.ViewModels
 
         public void SwitchToLocalFilesPage()
         {
-            _localFilesPage.RefreshContent();
             ChangePageInFrame(_localFilesPage);
         }
 
@@ -73,6 +72,11 @@ namespace SoundBuddy.ViewModels
         {
             if (_selectedPlaylistPage != null)
                 ChangePageInFrame(_selectedPlaylistPage);
+        }
+
+        public void RefreshPlaylistPage()
+        {
+            _playlistListPage.RefreshContent();
         }
 
         private void ChangePageInFrame(Page page)

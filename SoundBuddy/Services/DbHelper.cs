@@ -57,6 +57,46 @@ namespace SoundBuddy.Services
             return null;
         }
 
+        public static int? AddPlaylistToDatabase(string name, string? description, BitmapImage? cover)
+        {
+            var addingSuccess = ExecuteNonQuery($"INSERT INTO Playlists (Name, Description, Picture) VALUES ('{name}', '{description}', null);");
+
+            if (!addingSuccess) 
+                return null;
+
+            var queryResult = ExecuteQuery($"SELECT Id FROM Playlists WHERE Name = '{name}'");
+
+            if (queryResult.Rows.Count <= 0) 
+                return null;
+
+            var id = int.Parse(queryResult.Rows[0]["Id"].ToString() ?? string.Empty);
+
+            if (cover != null)
+                InsertBitmapImageToDatabase(cover, id);
+
+            return id;
+
+        }
+
+        // TODO fix method - shouldn't be a separate method
+        private static void InsertBitmapImageToDatabase(BitmapImage bitmapImage, int id)
+        {
+            var imageBytes = Tools.ConvertBitmapImageToByteArray(bitmapImage);
+
+            using (SQLiteConnection connection = new SQLiteConnection(ConnectionString))
+            {
+                connection.Open();
+
+                using (SQLiteCommand command = new SQLiteCommand(connection))
+                {
+                    command.CommandText = $"UPDATE Playlists SET Picture = @image WHERE Id = {id};";
+                    command.Parameters.Add("@image", DbType.Binary).Value = imageBytes;
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
         public static List<(int, string)> GetAllPathsAndIds()
         {
             var pathsAndIds = new List<(int, string)>();
@@ -91,6 +131,11 @@ namespace SoundBuddy.Services
                 idList.Add((int.Parse(row["SongId"].ToString())));
 
             return idList;
+        }
+
+        public static void DeleteSongFromDatabase(int id)
+        {
+            ExecuteNonQuery($"DELETE FROM Songs WHERE Id = {id};");
         }
     }
 }

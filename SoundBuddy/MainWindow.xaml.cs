@@ -1,6 +1,7 @@
 ﻿using SoundBuddy.Models;
 using SoundBuddy.ViewModels;
 using System.Windows;
+using System.Windows.Input;
 
 namespace SoundBuddy
 {
@@ -26,11 +27,6 @@ namespace SoundBuddy
                 return;
 
             SoundyFacade.AddSongsToList(paths);
-        }
-
-        public void PlaySong(Song song)
-        {
-            SoundyFacade.PlaySong(song);
         }
 
         private void BtnStop_OnClick(object sender, RoutedEventArgs e)
@@ -76,11 +72,12 @@ namespace SoundBuddy
         private void BtnCreatePlaylist_OnClick(object sender, RoutedEventArgs e)
         {
             SoundyFacade.SwitchToPlaylistListPage();
+            SoundyFacade.CreatePlaylist();
         }
 
         private void BtnMute_OnClick(object sender, RoutedEventArgs e)
         {
-            
+            SoundyFacade.Mute();
         }
 
         private void BtnPrevious_OnClick(object sender, RoutedEventArgs e)
@@ -96,6 +93,11 @@ namespace SoundBuddy
         private void BtnRandom_OnClick(object sender, RoutedEventArgs e)
         {
             SoundyFacade.ChangeRandomMode();
+        }
+
+        private void MainWindow_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
         }
     }
 }

@@ -1,10 +1,8 @@
-﻿using System.Windows;
-using System.Windows.Media.Imaging;
-using NAudio.Wave;
+﻿using NAudio.Wave;
 using SoundBuddy.Models;
-using SoundBuddy.Services;
 using SoundBuddy.Views.PopUps;
-using TagLib.Mpeg;
+using System.Windows;
+using System.Windows.Media;
 
 namespace SoundBuddy.ViewModels
 {
@@ -12,19 +10,13 @@ namespace SoundBuddy.ViewModels
     {
         private readonly MainWindow _window;
 
-        private readonly BitmapImage _soundBuddyLogo;
-        public readonly BitmapImage InsertImage;
-
         private double _previousVolume = 1;
 
         public DisplayController(MainWindow window)
         {
             _window = window;
 
-            _soundBuddyLogo = Tools.LoadImageFromPath("SoundBuddy");
-            InsertImage = Tools.LoadImageFromPath("InsertImage");
-
-            _window.CurrentCover.Source = _soundBuddyLogo;
+            _window.CurrentCover.Source = Tools.SoundBuddyLogo;
             _window.CurrentTitle.Content = "Welcome to SoundBuddy";
             _window.CurrentArtist.Content = "Enjoy listening :)";
             _window.CurrentAlbum.Content = "";
@@ -51,7 +43,7 @@ namespace SoundBuddy.ViewModels
             _window.CurrentTitle.Content = song.Title;
             _window.CurrentArtist.Content = song.Artists;
             _window.CurrentAlbum.Content = song.Album;
-            _window.CurrentCover.Source = song.Cover ?? _soundBuddyLogo;
+            _window.CurrentCover.Source = song.Cover ?? Tools.SoundBuddyLogo;
             _window.CurrentOtherData.Content = $"{song.Genre}, {song.Year}";
         }
 
@@ -75,15 +67,7 @@ namespace SoundBuddy.ViewModels
         // TODO
         public void Mute()
         {
-            if (_window.VolumeSlider.Value == 0)
-            {
-                
-            }
-            else
-            {
-                _previousVolume = _window.VolumeSlider.Value;
-
-            }
+            _window.BtnMute.Foreground = _window.BtnMute.Foreground == Brushes.White ? Brushes.Red : Brushes.White;
         }
 
         public void ChangeRandomModeButton(bool randomMode)
@@ -91,17 +75,10 @@ namespace SoundBuddy.ViewModels
             _window.BtnRandom.Opacity = randomMode ? 1 : 0.4;
         }
 
-        public Playlist? CreatePlaylist()
+        public void CreatePlaylist()
         {
-            var createPlaylistWindow = new CreatePlaylistPopUp();
-
-            createPlaylistWindow.ReturnValueEvent += createPlaylistWindow_ReturnValueEvent;
-
-        }
-
-        private void createPlaylistWindow_ReturnValueEvent((string, string, BitmapImage)? data)
-        {
-            
+            var createPlaylistWindow = new CreatePlaylistPopUp(_window);
+            createPlaylistWindow.Show();
         }
     }
 }

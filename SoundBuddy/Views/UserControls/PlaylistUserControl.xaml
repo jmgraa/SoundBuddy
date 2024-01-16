@@ -7,8 +7,15 @@
              mc:Ignorable="d" 
              Height="60"
              MouseDoubleClick="PlaylistUserControl_OnMouseDoubleClick">
-    <Border BorderBrush="#C87720" BorderThickness="0, 0, 0, 1">
-        <Grid HorizontalAlignment="Stretch">
+    <Border BorderBrush="#C87720" BorderThickness="0, 0, 0, 1" ContextMenuOpening="FrameworkElement_OnContextMenuOpening">
+        <Border.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Rename" />
+                <MenuItem Header="Delete" />
+            </ContextMenu>
+        </Border.ContextMenu>
+
+        <Grid HorizontalAlignment="Stretch" Background="#282828">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Stretch">
                 <Image Name="ImgCover" Width="50" Height="50" Margin="5"/>
                 <Label Name="LbName" Content="PLAYLIST NAME" VerticalAlignment="Center" Foreground="White" FontSize="20" Margin="5"/>

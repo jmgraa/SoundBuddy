@@ -83,4 +83,16 @@
         <Setter Property="Margin" Value="5, 0, 5, 0"/>
         <Setter Property="FontWeight" Value="Bold"/>
     </Style>
+
+    <Style x:Key="CustomProgressBarStyle" TargetType="ProgressBar">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ProgressBar">
+                    <Grid x:Name="PART_Track">
+                        <Rectangle x:Name="PART_Indicator" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
