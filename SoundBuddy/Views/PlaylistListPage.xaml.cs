@@ -1,5 +1,4 @@
 ﻿using SoundBuddy.Interfaces;
-using SoundBuddy.ViewModels;
 using SoundBuddy.Views.UserControls;
 using System.Collections.ObjectModel;
 

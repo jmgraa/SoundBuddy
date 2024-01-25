@@ -10,8 +10,8 @@ namespace SoundBuddy.ViewModels
     {
         private readonly MainWindow _window;
 
-        private readonly LocalFilesPage _localFilesPage;
-        private readonly PlaylistListPage _playlistListPage;
+        private LocalFilesPage _localFilesPage;
+        private PlaylistListPage _playlistListPage;
 
         private SelectedPlaylistPage? _selectedPlaylistPage;
 
@@ -28,11 +28,10 @@ namespace SoundBuddy.ViewModels
 
         public void LoadSelectedPlaylistPage(Playlist playlist)
         {
+	        playlist.Songs = SongManagement.GetSongsOnPlaylist(playlist.Id);
             _selectedPlaylistPage = new SelectedPlaylistPage(_window, playlist);
             SwitchToSelectedPlaylistPage();
         }
-
-        // Adding song to local files list
         public void AddSongsToList(string[] paths)
         {
             foreach (var path in paths)
@@ -85,6 +84,33 @@ namespace SoundBuddy.ViewModels
                 _selectedPlaylistPage = null;
 
             _window.mainFrame.Navigate(page);
+        }
+
+        public void UpdatePages()
+        {
+	        _localFilesPage = new LocalFilesPage(_window);
+	        _playlistListPage = new PlaylistListPage(_window, GetUserControls());
+
+
+	        if (_selectedPlaylistPage != null)
+	        {
+		        var playlistToCopy = _selectedPlaylistPage._currentPlaylist.Id;
+		        _selectedPlaylistPage._currentPlaylist.Songs = SongManagement.GetSongsOnPlaylist(playlistToCopy);
+		        var playlist = _selectedPlaylistPage._currentPlaylist;
+
+		        var selected = new SelectedPlaylistPage(_window, playlist);
+		        SwitchToPlaylistListPage();
+
+
+                _selectedPlaylistPage = selected;
+				SwitchToSelectedPlaylistPage();
+	        }
+	        else
+	        {
+		        SwitchToPlaylistListPage();
+                SwitchToLocalFilesPage();
+	        }
+		        
         }
     }
 }

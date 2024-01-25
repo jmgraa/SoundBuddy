@@ -1,13 +1,11 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using SoundBuddy.ViewModels;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using SoundBuddy.Models;
-using SoundBuddy.ViewModels;
 
 namespace SoundBuddy.Views.PopUps
 {
-    public partial class CreatePlaylistPopUp : Window
+	public partial class CreatePlaylistPopUp
     {
         private readonly MainWindow _window;
 
@@ -26,12 +24,11 @@ namespace SoundBuddy.Views.PopUps
             var description = TxtBxDescription.Text.Trim();
             var cover = ImgCover.Source != Tools.InsertImage ? ImgCover.Source as BitmapImage : null;
 
-            if (CheckDataCorectness(name, description))
-            {
-                SongManagement.AddPlaylistToDatabase(name, description, cover);
-                _window.SoundyFacade.RefreshPlaylistPage();
-                Close();
-            }
+            if (!ValidateData(name, description)) return;
+
+            SongManagement.AddPlaylistToDatabase(name, description, cover);
+            _window.SoundyFacade.RefreshPlaylistPage();
+            Close();
         }
 
         private void BtnCancel_OnClick(object sender, RoutedEventArgs e)
@@ -39,7 +36,7 @@ namespace SoundBuddy.Views.PopUps
             Close();
         }
 
-        private bool CheckDataCorectness(string name, string description)
+        private static bool ValidateData(string name, string description)
         {
             if (string.IsNullOrEmpty(name))
                 return false;

@@ -68,9 +68,9 @@
 
                 <Grid Grid.Row="0">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button Name="BtnMinimize" Content="🗕" Style="{StaticResource WindowControlButton}" Click="BtnMinimize_OnClick"/>
-                        <Button Name="BtnMaximize" Content="🗗" Style="{StaticResource WindowControlButton}" Click="BtnMaximize_OnClick"/>
-                        <Button Name="BtnClose" Content="X" Style="{StaticResource WindowControlButton}" Click="BtnClose_OnClick"/>
+                        <Button Name="BtnMinimize" Content="🗕" Style="{StaticResource WindowControlButton}" Click="ButtonClicked"/>
+                        <Button Name="BtnMaximize" Content="🗗" Style="{StaticResource WindowControlButton}" Click="ButtonClicked"/>
+                        <Button Name="BtnClose" Content="X" Style="{StaticResource WindowControlButton}" Click="ButtonClicked"/>
                     </StackPanel>
                 </Grid>
 
@@ -94,15 +94,15 @@
 
                                 <Grid Grid.Column="0">
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                        <Button Name="BtnPlaylists" Content="Playlists" Style="{StaticResource TopChoiceButton}" Click="BtnPlaylists_OnClick"/>
-                                        <Button Name="BtnLocalFiles"  Content="Local files" Style="{StaticResource TopChoiceButton}" Click="BtnLocalFiles_OnClick"/>
+                                        <Button Name="BtnPlaylists" Content="Playlists" Style="{StaticResource TopChoiceButton}" Click="ButtonClicked"/>
+                                        <Button Name="BtnLocalFiles"  Content="Local files" Style="{StaticResource TopChoiceButton}" Click="ButtonClicked"/>
                                     </StackPanel>
                                 </Grid>
 
                                 <Grid Grid.Column="1" HorizontalAlignment="Right">
                                     <StackPanel Orientation="Horizontal">
-                                        <Button Name="BtnCreatePlaylist" Content="Create playlist" Style="{StaticResource TopChoiceButton}" Click="BtnCreatePlaylist_OnClick"/>
-                                        <Button Name="BtnAddSongs" Content="Add songs" Style="{StaticResource TopChoiceButton}" Click="BtnAddSongs_OnClick"/>
+                                        <Button Name="BtnCreatePlaylist" Content="Create playlist" Style="{StaticResource TopChoiceButton}" Click="ButtonClicked"/>
+                                        <Button Name="BtnAddSongs" Content="Add songs" Style="{StaticResource TopChoiceButton}" Click="ButtonClicked"/>
                                     </StackPanel>
 
                                 </Grid>
@@ -127,17 +127,15 @@
 
             <Grid Grid.Column="0">
                 <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button Name="BtnPrevious" Content="&#xf048;" Style="{StaticResource ControlButton}" Click="BtnPrevious_OnClick"/>
-                        <Button Name="BtnStop" Content="&#xf04d;" Style="{StaticResource ControlButton}" Click="BtnStop_OnClick"/>
-                        <Button Name="BtnPlay" Content="&#xf144;" FontSize="35" Style="{StaticResource ControlButton}" Click="BtnPlay_OnClick"/>
-                        <Button Name="BtnPause" Content="&#xf04c;" Style="{StaticResource ControlButton}" Click="BtnPause_OnClick"/>
-                        <Button Name="BtnNext" Content="&#xf051;" Style="{StaticResource ControlButton}" Click="BtnNext_OnClick"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                        <Button Name="BtnPrevious" Content="&#xf048;" Style="{StaticResource ControlButton}" Click="ButtonClicked"/>
+                        <Button Name="BtnStop" Content="&#xf04d;" Style="{StaticResource ControlButton}" Click="ButtonClicked"/>
+                        <Button Name="BtnPlay" Content="&#xf144;" FontSize="35" Style="{StaticResource ControlButton}" Click="ButtonClicked"/>
+                        <Button Name="BtnPause" Content="&#xf04c;" Style="{StaticResource ControlButton}" Click="ButtonClicked"/>
+                        <Button Name="BtnNext" Content="&#xf051;" Style="{StaticResource ControlButton}" Click="ButtonClicked"/>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button Content="&#xf363;" Style="{StaticResource SecondaryControlButton}"/>
-                        <Button Name="BtnRandom" Content="&#xf074;" Style="{StaticResource SecondaryControlButton}" Click="BtnRandom_OnClick"/>
-                    </StackPanel>
+
+                    <Button Name="BtnRandom" Content="&#xf074;" Style="{StaticResource SecondaryControlButton}" Click="ButtonClicked"/>
                 </StackPanel>
             </Grid>
 
@@ -145,12 +143,12 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0, 0, 15, 0">
                         <Label Name="LbCurrentTime" Content="0:00" Foreground="White"/>
-                        <ProgressBar x:Name="ProgressBar" Width="300" Height="20" Margin="10, 0, 10, 0" Style="{StaticResource CustomProgressBarStyle}"/>
+                        <ProgressBar x:Name="ProgressBar" Width="300" Height="10" Margin="10, 0, 10, 0" Style="{StaticResource CustomProgressBarStyle}"/>
                         <Label Name="LbLeftTime" Content="0:00" Foreground="White"/>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15, 0, 0, 0">
-                        <Button Name="BtnMute" Content="&#xf027;" Style="{StaticResource ControlButton}" Click="BtnMute_OnClick" Foreground="White"/>
+                        <Button Name="BtnMute" Content="&#xf027;" Style="{StaticResource ControlButton}" Click="ButtonClicked" Foreground="White"/>
                         <Slider x:Name="VolumeSlider" Width="100" Height="20" 
                                 Minimum="0" Maximum="1" Value="0.5" SmallChange="0.01" LargeChange="0.1"/>
                     </StackPanel>

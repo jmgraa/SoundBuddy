@@ -3,7 +3,7 @@ using System.Windows.Media.Imaging;
 
 namespace SoundBuddy.Models
 {
-    public class Playlist(
+	public class Playlist(
         int id,
         string name,
         string? description,

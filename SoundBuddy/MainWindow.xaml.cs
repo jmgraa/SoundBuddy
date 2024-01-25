@@ -1,11 +1,11 @@
-﻿using SoundBuddy.Models;
-using SoundBuddy.ViewModels;
+﻿using SoundBuddy.ViewModels;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace SoundBuddy
 {
-    public partial class MainWindow
+	public partial class MainWindow
     {
         internal readonly SoundyFacade SoundyFacade;
 
@@ -17,82 +17,61 @@ namespace SoundBuddy
             SoundyFacade = new SoundyFacade(this);
         }
 
-        private void BtnAddSongs_OnClick(object sender, RoutedEventArgs e)
+        private void ButtonClicked(object sender, RoutedEventArgs e)
         {
-            SoundyFacade.SwitchToLocalFilesPage();
+	        if (sender is not Button button) return;
 
-            var paths = SoundyFacade.SelectSongFiles();
+	        var buttonName = button.Name;
 
-            if (paths == null) 
-                return;
-
-            SoundyFacade.AddSongsToList(paths);
-        }
-
-        private void BtnStop_OnClick(object sender, RoutedEventArgs e)
-        {
-            SoundyFacade.Stop();
-        }
-
-        private void BtnPlay_OnClick(object sender, RoutedEventArgs e)
-        {
-            SoundyFacade.Play();
-        }
-
-        private void BtnPause_OnClick(object sender, RoutedEventArgs e)
-        {
-            SoundyFacade.Pause();
-        }
-
-        private void BtnMinimize_OnClick(object sender, RoutedEventArgs e)
-        {
-            SoundyFacade.MinimizeWindow();
-        }
-
-        private void BtnMaximize_OnClick(object sender, RoutedEventArgs e)
-        {
-            SoundyFacade.MaximizeWindow();
-        }
-
-        private void BtnClose_OnClick(object sender, RoutedEventArgs e)
-        {
-            SoundyFacade.CloseWindow();
-        }
-
-        private void BtnPlaylists_OnClick(object sender, RoutedEventArgs e)
-        {
-            SoundyFacade.SwitchToPlaylistListPage();
-        }
-
-        private void BtnLocalFiles_OnClick(object sender, RoutedEventArgs e)
-        {
-            SoundyFacade.SwitchToLocalFilesPage();
-        }
-
-        private void BtnCreatePlaylist_OnClick(object sender, RoutedEventArgs e)
-        {
-            SoundyFacade.SwitchToPlaylistListPage();
-            SoundyFacade.CreatePlaylist();
-        }
-
-        private void BtnMute_OnClick(object sender, RoutedEventArgs e)
-        {
-            SoundyFacade.Mute();
-        }
-
-        private void BtnPrevious_OnClick(object sender, RoutedEventArgs e)
-        {
-            SoundyFacade.Restart();
-        }
-
-        private void BtnNext_OnClick(object sender, RoutedEventArgs e)
-        {
-            SoundyFacade.PlaySong(SoundyFacade.GetNextSongToPlay());
-        }
-
-        private void BtnRandom_OnClick(object sender, RoutedEventArgs e)
-        {
-            SoundyFacade.ChangeRandomMode();
+	        switch (buttonName)
+	        {
+                case "BtnAddSongs":
+	                SoundyFacade.SwitchToLocalFilesPage();
+	                var paths = SoundyFacade.SelectSongFiles();
+	                if (paths == null) return;
+	                SoundyFacade.AddSongsToList(paths);
+	                break;
+                case "BtnStop":
+	                SoundyFacade.Stop();
+	                break;
+                case "BtnPlay":
+	                SoundyFacade.Play();
+	                break;
+                case "BtnPause":
+	                SoundyFacade.Pause();
+	                break;
+                case "BtnMinimize":
+	                SoundyFacade.MinimizeWindow();
+	                break;
+                case "BtnMaximize":
+	                SoundyFacade.MaximizeWindow();
+	                break;
+                case "BtnClose":
+	                SoundyFacade.CloseWindow();
+	                break;
+                case "BtnPlaylists":
+	                SoundyFacade.SwitchToPlaylistListPage();
+	                break;
+                case "BtnLocalFiles":
+	                SoundyFacade.SwitchToLocalFilesPage();
+	                break;
+                case "BtnCreatePlaylist":
+	                SoundyFacade.SwitchToPlaylistListPage();
+	                SoundyFacade.CreatePlaylist();
+	                break;
+                case "BtnMute":
+	                SoundyFacade.Mute();
+	                break;
+                case "BtnPrevious":
+	                SoundyFacade.Restart();
+	                break;
+                case "BtnNext":
+	                SoundyFacade.PlaySong(SoundyFacade.GetNextSongToPlay());
+	                break;
+                case "BtnRandom":
+	                SoundyFacade.ChangeRandomMode();
+	                break;
+	        }
         }
 
         private void MainWindow_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

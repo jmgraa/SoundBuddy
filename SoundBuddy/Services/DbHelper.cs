@@ -1,6 +1,9 @@
 ﻿using System.Data;
 using System.Data.SQLite;
+using System.Windows;
 using System.Windows.Media.Imaging;
+using SoundBuddy.Models;
+using SoundBuddy.ViewModels;
 
 namespace SoundBuddy.Services
 {
@@ -25,21 +28,42 @@ namespace SoundBuddy.Services
 
         private static bool ExecuteNonQuery(string query)
         {
-            using var connection = new SQLiteConnection(ConnectionString);
+	        try
+	        {
+		        using (var connection = new SQLiteConnection(ConnectionString))
+		        {
+			        connection.Open();
 
-            try
-            {
-                connection.Open();
+			        using (var transaction = connection.BeginTransaction())
+			        {
+				        try
+				        {
+					        using (var command = new SQLiteCommand(query, connection, transaction))
+					        {
+						        command.ExecuteNonQuery();
+					        }
 
-                using var command = new SQLiteCommand(query, connection);
-                command.ExecuteNonQuery();
+					        // Commit the transaction if everything is successful
+					        transaction.Commit();
 
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+					        return true;
+				        }
+				        catch (Exception ex)
+				        {
+					        // Rollback the transaction in case of an exception
+					        transaction.Rollback();
+					        MessageBox.Show(ex.ToString());
+					        return false;
+				        }
+			        }
+		        }
+	        }
+	        catch (Exception ex)
+	        {
+		        // Handle connection-related exceptions
+		        MessageBox.Show(ex.ToString());
+		        return false;
+	        }
         }
 
         public static int? AddSongToDatabase(string path)
@@ -136,6 +160,13 @@ namespace SoundBuddy.Services
         public static void DeleteSongFromDatabase(int id)
         {
             ExecuteNonQuery($"DELETE FROM Songs WHERE Id = {id};");
+        }
+
+        public static void AddSongToPlaylist(Playlist playlist, int songId)
+        {
+            var succes = ExecuteNonQuery($"INSERT INTO SongsOnPlaylist (SongId, PlaylistId) VALUES ({songId}, {playlist.Id});");
+            //var succes = ExecuteNonQuery($"INSERT INTO SongsOnPlaylist (SongId, PlaylistId) VALUES (5, 10);");
+            //var dede = ExecuteNonQuery($"INSERT INTO Songs VALUES (69, 'xddd');");
         }
     }
 }

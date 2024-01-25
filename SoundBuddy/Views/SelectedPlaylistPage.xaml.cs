@@ -9,7 +9,7 @@ namespace SoundBuddy.Views
     {
         private readonly MainWindow _window;
 
-        private readonly Playlist _currentPlaylist;
+        public readonly Playlist _currentPlaylist;
 
         public SelectedPlaylistPage(MainWindow window, Playlist playlist)
         {

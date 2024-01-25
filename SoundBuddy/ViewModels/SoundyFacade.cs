@@ -31,6 +31,7 @@ namespace SoundBuddy.ViewModels
 
         public void LoadSelectedPlaylistPage(Playlist playlist)
         {
+	        var xd = playlist.Songs;
             _pageController.LoadSelectedPlaylistPage(playlist);
         }
 
@@ -146,5 +147,10 @@ namespace SoundBuddy.ViewModels
             _displayController.ChangeRandomModeButton(_queueController.ChangeRandomMode());
         }
         // END OF QUEUE CONTROLLER
+
+        public void UpdatePlaylists()
+        {
+	        _pageController.UpdatePages();
+        }
     }
 }
