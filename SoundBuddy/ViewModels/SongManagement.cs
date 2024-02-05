@@ -5,25 +5,25 @@ using System.Windows.Media.Imaging;
 
 namespace SoundBuddy.ViewModels
 {
-    internal class SongManagement
+    internal static class SongManagement
     {
         public static Song? AddSongToDatabase(string path)
         {
-            var id = DbHelper.AddSongToDatabase(path);
+            var id = DatabaseManagement.AddSongToDatabase(path);
 
             return id != null ? TagService.GetSongData(path, id.Value) : null;
         }
 
         public static Playlist? AddPlaylistToDatabase(string name, string? description, BitmapImage? cover)
         {
-            var id = DbHelper.AddPlaylistToDatabase(name, description, cover);
+            var id = DatabaseManagement.AddPlaylistToDatabase(name, description, cover);
 
             return id != null ? new Playlist(id.Value, name, description, cover, GetSongsOnPlaylist(id.Value)) : null;
         }
 
         public static ObservableCollection<Song> GetAllSongs()
         {
-            var pathsAndIds = DbHelper.GetAllPathsAndIds();
+            var pathsAndIds = DatabaseManagement.GetAllPathsAndIds();
             var songs = new ObservableCollection<Song>();
 
             foreach (var pathAndId in pathsAndIds)
@@ -41,7 +41,7 @@ namespace SoundBuddy.ViewModels
         {
             var playlists = new ObservableCollection<Playlist>();
 
-            var playlistData = DbHelper.GetAllPlaylists();
+            var playlistData = DatabaseManagement.GetAllPlaylists();
 
             foreach (var data in playlistData)
             {
@@ -57,7 +57,7 @@ namespace SoundBuddy.ViewModels
         {
             var allSongs = GetAllSongs();
             var songsOnPlaylist = new ObservableCollection<Song>();
-            var songsOnPlaylistIds = DbHelper.GetSongsOnPlaylistIds(id);
+            var songsOnPlaylistIds = DatabaseManagement.GetSongsOnPlaylistIds(id);
 
             foreach (var song in allSongs)
             {

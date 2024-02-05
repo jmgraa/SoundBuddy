@@ -27,10 +27,5 @@ namespace SoundBuddy.Views.UserControls
         {
             _window.SoundyFacade.LoadSelectedPlaylistPage(_playlist);
         }
-
-        private void FrameworkElement_OnContextMenuOpening(object sender, ContextMenuEventArgs e)
-        {
-            
-        }
     }
 }

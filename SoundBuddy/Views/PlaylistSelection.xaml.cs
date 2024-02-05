@@ -8,8 +8,8 @@ namespace SoundBuddy.Views
 {
 	public partial class PlaylistSelection
     {
-        private ObservableCollection<Playlist> DataList = SongManagement.GetAllPlaylists();
-        private Song _song;
+        private readonly ObservableCollection<Playlist> _listOfPlaylists = SongManagement.GetAllPlaylists();
+        private readonly Song _song;
 
         public PlaylistSelection(Song song)
         {
@@ -17,36 +17,36 @@ namespace SoundBuddy.Views
 
             _song = song;
 
-            var names = new ObservableCollection<MyData>();
+            var names = new ObservableCollection<ColumnPlaylist>();
 
-            foreach (var playlist in DataList)
+            foreach (var playlist in _listOfPlaylists)
             {
-                names.Add(new MyData{Column1 = playlist.Name});
+                names.Add(new ColumnPlaylist{Column1 = playlist.Name});
             }
 
-            myListView.ItemsSource = names;
+            MyListView.ItemsSource = names;
         }
 
-        private void MyListView_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (myListView.SelectedItem == null)
+            if (MyListView.SelectedItem == null)
                 return;
 
-            var list = new List<Playlist>(DataList);
+            var list = new List<Playlist>(_listOfPlaylists);
 
-            var dso = (MyData)myListView.SelectedItem;
+            var dso = (ColumnPlaylist)MyListView.SelectedItem;
 
             var foundSong = list.Find(playlist => playlist.Name == dso.Column1);
 
-            DbHelper.AddSongToPlaylist(foundSong, _song.Id);
-            foundSong.Songs = SongManagement.GetSongsOnPlaylist(foundSong.Id);
+            DatabaseManagement.AddSongToPlaylist(foundSong!, _song.Id);
+            foundSong!.Songs = SongManagement.GetSongsOnPlaylist(foundSong.Id);
 
             Close();
         }
 
-        private class MyData
+        private class ColumnPlaylist
         {
-            public string Column1 { get; set; }
+            public string Column1 { get; init; } = null!;
         }
     }
 }

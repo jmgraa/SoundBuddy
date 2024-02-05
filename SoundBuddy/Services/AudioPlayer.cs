@@ -17,7 +17,7 @@ namespace SoundBuddy.Services
 
         private readonly Slider _volumeSlider;
 
-        private float _previousVolume = 0;
+        private float _previousVolume;
 
         public AudioPlayer(MainWindow window)
         {

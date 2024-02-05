@@ -9,6 +9,6 @@
       Title="LocalFilesPage">
 
     <Grid>
-        <userControls:SongListViewUserControl x:Name="SongListViewUrCl" MouseDoubleClick="SongListView_OnMouseDoubleClick"/>
+        <userControls:SongListViewUserControl x:Name="SongListViewUrCl" MouseDoubleClick="OnMouseDoubleClick"/>
     </Grid>
 </Page>

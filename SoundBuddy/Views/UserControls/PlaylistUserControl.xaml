@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              Height="60"
              MouseDoubleClick="PlaylistUserControl_OnMouseDoubleClick">
-    <Border BorderBrush="#C87720" BorderThickness="0, 0, 0, 1" ContextMenuOpening="FrameworkElement_OnContextMenuOpening">
+    <Border BorderBrush="#C87720" BorderThickness="0, 0, 0, 1">
         <Border.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Rename" />

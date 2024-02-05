@@ -10,8 +10,6 @@ namespace SoundBuddy.ViewModels
     {
         private readonly MainWindow _window;
 
-        private double _previousVolume = 1;
-
         public DisplayController(MainWindow window)
         {
             _window = window;

@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         Title="PlaylistSelection" Height="450" Width="400">
     <Grid Background="#191919">
-        <ListView Name="myListView" Margin="10" MouseDoubleClick="MyListView_OnMouseDoubleClick" Background="Transparent">
+        <ListView Name="MyListView" Margin="10" MouseDoubleClick="OnMouseDoubleClick" Background="Transparent">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Style.Triggers>

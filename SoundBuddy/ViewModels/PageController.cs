@@ -83,7 +83,7 @@ namespace SoundBuddy.ViewModels
             if (page != _selectedPlaylistPage)
                 _selectedPlaylistPage = null;
 
-            _window.mainFrame.Navigate(page);
+            _window.MainFrame.Navigate(page);
         }
 
         public void UpdatePages()
@@ -94,9 +94,9 @@ namespace SoundBuddy.ViewModels
 
 	        if (_selectedPlaylistPage != null)
 	        {
-		        var playlistToCopy = _selectedPlaylistPage._currentPlaylist.Id;
-		        _selectedPlaylistPage._currentPlaylist.Songs = SongManagement.GetSongsOnPlaylist(playlistToCopy);
-		        var playlist = _selectedPlaylistPage._currentPlaylist;
+		        var playlistToCopy = _selectedPlaylistPage.CurrentPlaylist.Id;
+		        _selectedPlaylistPage.CurrentPlaylist.Songs = SongManagement.GetSongsOnPlaylist(playlistToCopy);
+		        var playlist = _selectedPlaylistPage.CurrentPlaylist;
 
 		        var selected = new SelectedPlaylistPage(_window, playlist);
 		        SwitchToPlaylistListPage();

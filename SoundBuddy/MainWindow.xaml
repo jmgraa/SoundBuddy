@@ -30,8 +30,8 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Rectangle Grid.Column="0" Fill="#191919"></Rectangle>
-            <Rectangle Grid.Column="1" Fill="#282828"></Rectangle>
+            <Rectangle Grid.Column="0" Fill="#191919"/>
+            <Rectangle Grid.Column="1" Fill="#282828"/>
 
             <Grid Grid.Column="0">
                 <Grid>
@@ -110,7 +110,7 @@
 
                         </Grid>
                         <Grid Grid.Row="1">
-                            <Frame Name="mainFrame" NavigationUIVisibility="Hidden"/>
+                            <Frame Name="MainFrame" NavigationUIVisibility="Hidden"/>
                         </Grid>
                     </Grid>
                 </Grid>

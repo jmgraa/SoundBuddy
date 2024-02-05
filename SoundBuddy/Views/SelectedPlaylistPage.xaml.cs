@@ -1,15 +1,12 @@
-﻿using SoundBuddy.ViewModels;
-using System.Windows.Controls;
-using SoundBuddy.Models;
+﻿using SoundBuddy.Models;
 using System.Windows.Input;
 
 namespace SoundBuddy.Views
 {
-    public partial class SelectedPlaylistPage
+	public partial class SelectedPlaylistPage
     {
         private readonly MainWindow _window;
-
-        public readonly Playlist _currentPlaylist;
+        public readonly Playlist CurrentPlaylist;
 
         public SelectedPlaylistPage(MainWindow window, Playlist playlist)
         {
@@ -17,21 +14,21 @@ namespace SoundBuddy.Views
 
             _window = window;
 
-            _currentPlaylist = playlist;
-            SongListViewUrCl.songListView.ItemsSource = _currentPlaylist.Songs;
+            CurrentPlaylist = playlist;
+            SongListViewUrCl.SongListView.ItemsSource = CurrentPlaylist.Songs;
 
             LbName.Content = playlist.Name;
             LbDescription.Content = playlist.Description;
             ImgCover.Source = playlist.Cover;
         }
 
-        private void SongListView_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (SongListViewUrCl.songListView.SelectedItem == null)
+            if (SongListViewUrCl.SongListView.SelectedItem == null)
                 return;
 
-            _window.SoundyFacade.ChangeCurrentQueue(_currentPlaylist.Songs);
-            _window.SoundyFacade.PlaySong((Song)SongListViewUrCl.songListView.SelectedItem);
+            _window.SoundyFacade.ChangeCurrentQueue(CurrentPlaylist.Songs);
+            _window.SoundyFacade.PlaySong((Song)SongListViewUrCl.SongListView.SelectedItem);
         }
     }
 }

@@ -33,7 +33,7 @@ namespace SoundBuddy.Services
             }
             catch
             {
-                DbHelper.DeleteSongFromDatabase(id);
+                DatabaseManagement.DeleteSongFromDatabase(id);
             }
 
             return null;

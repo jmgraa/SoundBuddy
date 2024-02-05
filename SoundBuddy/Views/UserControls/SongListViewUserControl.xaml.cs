@@ -15,9 +15,9 @@ namespace SoundBuddy.Views.UserControls
 
         private void MenuAddToPlaylist_OnClick(object sender, RoutedEventArgs e)
         {
-            if (songListView.SelectedItem == null) return;
+            if (SongListView.SelectedItem == null) return;
 
-            var song = (Song)songListView.SelectedItem;
+            var song = (Song)SongListView.SelectedItem;
 
             var wind = new PlaylistSelection(song);
             wind.Show();
@@ -25,11 +25,11 @@ namespace SoundBuddy.Views.UserControls
 
         private void MenuDeleteSong_OnClick(object sender, RoutedEventArgs e)
         {
-	        if (songListView.SelectedItem == null) return;
+	        if (SongListView.SelectedItem == null) return;
 
-	        var song = (Song)songListView.SelectedItem;
+	        var song = (Song)SongListView.SelectedItem;
 
-            DbHelper.DeleteSongFromDatabase(song.Id);
+            DatabaseManagement.DeleteSongFromDatabase(song.Id);
 
             var parentWindow = Window.GetWindow(this);
 

@@ -48,7 +48,7 @@ namespace SoundBuddy.Views.PopUps
 
         private void ImgCover_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var path = FileController.SelectPlaylistCover();
+            var path = FileManagement.SelectPlaylistCover();
 
             if (path != null)
                 ImgCover.Source = Tools.LoadImageFromAbsolutePath(path);

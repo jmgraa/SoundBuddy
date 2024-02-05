@@ -5,11 +5,10 @@ namespace SoundBuddy.ViewModels
 {
     public class QueueController(MainWindow window)
     {
-        private ObservableCollection<Song> _playedSongs = [];
-        private ObservableCollection<Song> _wholeQueue = SongManagement.GetAllSongs();
+        private readonly ObservableCollection<Song> _playedSongs = [];
         private ObservableCollection<Song> _currentQueue = SongManagement.GetAllSongs();
 
-        private Song? _currentSong = null;
+        private Song? _currentSong;
 
         private int _songIndex;
         private bool _randomSong;
@@ -70,7 +69,6 @@ namespace SoundBuddy.ViewModels
                 collection.Add(newQueue[i]);
             }
             
-            _wholeQueue = newQueue;
             _currentQueue = collection;
             _playedSongs.Clear();
         }
@@ -84,17 +82,6 @@ namespace SoundBuddy.ViewModels
         public void SetCurrentSongInQueue(Song song)
         { 
             _currentSong = song;
-        }
-
-        public Song? GetPreviousSong()
-        {
-            if (_playedSongs.Count == 0) 
-                return null;
-
-            var lastSong = _playedSongs.Last();
-            _playedSongs.RemoveAt(_playedSongs.Count - 1);
-
-            return lastSong;
         }
     }
 }

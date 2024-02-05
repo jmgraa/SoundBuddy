@@ -31,8 +31,7 @@ namespace SoundBuddy.ViewModels
 
         public void LoadSelectedPlaylistPage(Playlist playlist)
         {
-	        var xd = playlist.Songs;
-            _pageController.LoadSelectedPlaylistPage(playlist);
+	        _pageController.LoadSelectedPlaylistPage(playlist);
         }
 
         public ObservableCollection<PlaylistUserControl> GetUserControls()
@@ -120,9 +119,9 @@ namespace SoundBuddy.ViewModels
         // END OF DISPLAY CONTROLLER
 
         // FILE CONTROLLER
-        public string[]? SelectSongFiles()
+        public static string[]? SelectSongFiles()
         {
-            return FileController.SelectSongFiles();
+            return FileManagement.SelectSongFiles();
         }
         // END OF FILE CONTROLLER
 

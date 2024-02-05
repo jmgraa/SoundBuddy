@@ -1,13 +1,12 @@
-﻿using System.Data;
+﻿using SoundBuddy.Models;
+using System.Data;
 using System.Data.SQLite;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using SoundBuddy.Models;
-using SoundBuddy.ViewModels;
 
 namespace SoundBuddy.Services
 {
-    internal static class DbHelper
+	internal static class DatabaseManagement
     {
         // TODO connection string fix
         private const string ConnectionString = "Data Source=SBData.db;Version=3;";
@@ -43,25 +42,20 @@ namespace SoundBuddy.Services
 						        command.ExecuteNonQuery();
 					        }
 
-					        // Commit the transaction if everything is successful
 					        transaction.Commit();
 
 					        return true;
 				        }
 				        catch (Exception ex)
 				        {
-					        // Rollback the transaction in case of an exception
 					        transaction.Rollback();
-					        MessageBox.Show(ex.ToString());
 					        return false;
 				        }
 			        }
 		        }
 	        }
-	        catch (Exception ex)
+	        catch
 	        {
-		        // Handle connection-related exceptions
-		        MessageBox.Show(ex.ToString());
 		        return false;
 	        }
         }
@@ -163,10 +157,8 @@ namespace SoundBuddy.Services
         }
 
         public static void AddSongToPlaylist(Playlist playlist, int songId)
-        {
-            var succes = ExecuteNonQuery($"INSERT INTO SongsOnPlaylist (SongId, PlaylistId) VALUES ({songId}, {playlist.Id});");
-            //var succes = ExecuteNonQuery($"INSERT INTO SongsOnPlaylist (SongId, PlaylistId) VALUES (5, 10);");
-            //var dede = ExecuteNonQuery($"INSERT INTO Songs VALUES (69, 'xddd');");
+        { 
+	        ExecuteNonQuery($"INSERT INTO SongsOnPlaylist (SongId, PlaylistId) VALUES ({songId}, {playlist.Id});");
         }
     }
 }
